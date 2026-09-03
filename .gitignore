@@ -1,0 +1,6 @@
+.DS_Store
+
+# Raw source images (unoptimized originals) — the site only loads the
+# processed files under assets/. Kept locally, not needed for deploy.
+Portofolio-pics/
+Client-profile-picture/

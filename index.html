@@ -1,0 +1,1949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A Aksa Nur Irwan — Mobile &amp; Web App Developer</title>
+<meta name="description" content="A Aksa Nur Irwan — Flutter &amp; FlutterFlow developer building mobile apps, web dashboards and interactive experiences. 80+ products delivered for clients in 20+ countries." />
+<meta name="theme-color" content="#0a0a0a" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- tokens ---------- */
+:root{
+  --background:#ffffff; --foreground:#111111; --ink:#0a0a0a;
+  --muted:#8d8d8d; --subtle:#b6b6b6; --line:#e6e5e2;
+  --surface:#f1f0ee; --surface-2:#e3e2df;
+  --accent:#b15f2c; --accent-from:#cf8047; --accent-to:#97501f;
+  --hero-from:#ecebe9; --hero-to:#c9c9c9;
+  --radius-pill:9999px; --radius-card:2rem; --radius-card-sm:1.25rem; --radius-control:.875rem;
+  --text-watermark:13rem; --container-shell:88rem;
+}
+
+/* ---------- reset / base ---------- */
+*{ box-sizing:border-box; margin:0; padding:0 }
+html{ font-size:16px; -webkit-font-smoothing:antialiased }
+body{ background:#ffffff; color:#111111; font-family:'Onest',sans-serif; overflow-x:clip }
+a{ color:inherit; text-decoration:none }
+button{ font:inherit; color:inherit; background:none; border:none; cursor:pointer }
+ul{ list-style:none }
+img{ display:block }
+.sr-only{ position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0 }
+:focus-visible{ outline:2px solid #b15f2c; outline-offset:2px }
+@media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important } }
+
+/* ---------- adaptive grid ---------- */
+@media (max-width:1920px){ html{ font-size:0.833333vw } }
+@media (max-width:1440px){ html{ font-size:1.111111vw } }
+@media (max-width:1024px){ html{ font-size:1.5625vw } }
+@media (max-width:640px){  html{ font-size:4.444444vw } }
+
+/* ---------- helpers ---------- */
+.shell{ max-width:var(--container-shell); margin-inline:auto }
+.ic{ width:1em; height:1em; display:inline-block; vertical-align:middle; flex:none }
+.tnum{ font-variant-numeric:tabular-nums }
+
+.skip{ position:absolute; left:-999rem; top:0; z-index:60 }
+.skip:focus{ position:fixed; left:1rem; top:1rem; border-radius:.875rem; background:#0a0a0a; padding:.5rem 1rem; font-size:.875rem; color:#fff }
+
+/* ---------- reveals ---------- */
+.rv{ opacity:0; transform:translateY(var(--ry,12px)) scale(var(--rs,1));
+     transition:opacity var(--rd,.8s) var(--re,cubic-bezier(.16,1,.3,1)) var(--rdl,0ms),
+                transform var(--rd,.8s) var(--re,cubic-bezier(.16,1,.3,1)) var(--rdl,0ms) }
+.rv.in{ opacity:var(--ro,1); transform:translateY(0) scale(1) }
+
+.lines .ln{ display:block; overflow:hidden }
+.lines .ln>span{ display:block; transform:translateY(100%); opacity:0;
+  transition:transform .9s cubic-bezier(.215,.61,.355,1) var(--d,0ms), opacity .9s cubic-bezier(.215,.61,.355,1) var(--d,0ms) }
+.lines.in .ln>span{ transform:translateY(0); opacity:1 }
+
+.words .wd{ display:inline-block; transform:translateY(24px); opacity:0;
+  transition:transform .7s cubic-bezier(.165,.84,.44,1) var(--d,0ms), opacity .7s cubic-bezier(.165,.84,.44,1) var(--d,0ms) }
+.words.in .wd{ transform:translateY(0); opacity:1 }
+
+/* ---------- shared components ---------- */
+.pill{ display:inline-block }
+.pill-in{ display:inline-flex; align-items:center; gap:.75rem; border-radius:var(--radius-pill);
+  font-size:.875rem; font-weight:500; padding:.875rem 1.75rem; transform-origin:center }
+.pill.has-arrow>.pill-in{ padding:.375rem .375rem .375rem 1.5rem }
+.pill.v-dark>.pill-in{ background:var(--ink); color:#fff }
+.pill.v-light>.pill-in{ background:var(--surface); color:var(--foreground) }
+.pill.v-outline>.pill-in{ border:1px solid var(--line); background:transparent; color:var(--foreground) }
+.pill-badge{ width:2.25rem; height:2.25rem; display:grid; place-items:center; border-radius:var(--radius-pill);
+  font-size:1rem; background:var(--ink); color:#fff; overflow:hidden }
+.pill.v-dark>.pill-in .pill-badge{ background:#fff; color:var(--ink) }
+.pill-badge>span{ display:grid; place-items:center }
+
+.eyebrow{ display:inline-flex; align-items:center; gap:.5rem; font-size:.875rem; font-weight:500; color:rgba(17,17,17,.7) }
+.eyebrow::before{ content:""; width:.375rem; height:.375rem; border-radius:var(--radius-pill); background:rgba(17,17,17,.5); flex:none }
+.eyebrow.light{ color:rgba(255,255,255,.7) }
+.eyebrow.light::before{ background:rgba(255,255,255,.6) }
+.eyebrow.bordered{ border:1px solid var(--line); border-radius:var(--radius-pill); padding:.375rem 1rem }
+
+.chip{ display:inline-flex; border:1px solid rgba(255,255,255,.25); color:#fff; border-radius:var(--radius-pill);
+  padding:.5rem 1rem; font-size:.875rem }
+
+.alink{ display:inline-flex }
+.alink>span{ display:inline-block; opacity:.65 }
+
+/* ---------- page loader ---------- */
+.loader{ position:fixed; inset:0; z-index:120; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:2rem; background:#0a0a0a; color:#fff; border-radius:0 0 2rem 2rem; will-change:transform }
+.loader-center{ display:flex; flex-direction:column; align-items:center; gap:1.25rem; text-align:center }
+.loader-brand{ display:flex; align-items:center; gap:.5rem; font-weight:600; font-size:1.5rem }
+.loader-brand .ic{ font-size:1.875rem; color:var(--accent-from) }
+.loader-tag{ max-width:24ch; font-size:.875rem; color:rgba(255,255,255,.55) }
+.loader-progress{ width:min(22rem,72vw); display:flex; flex-direction:column; gap:.75rem }
+.loader-track{ height:1px; width:100%; background:rgba(255,255,255,.15); overflow:hidden }
+.loader-fill{ height:100%; width:0%; background:var(--accent-from); transition:width .1s ease-out }
+.loader-meta{ display:flex; align-items:center; justify-content:space-between; font-size:.75rem; font-weight:500;
+  text-transform:uppercase; letter-spacing:.05em; color:rgba(255,255,255,.45) }
+.loader-count{ color:rgba(255,255,255,.8) }
+@media (min-width:640px){ .loader-brand{ font-size:1.875rem } }
+
+/* ---------- header ---------- */
+.header{ position:absolute; inset-inline:0; top:0; z-index:50 }
+.header-in{ display:flex; align-items:center; justify-content:space-between; gap:1.5rem; padding:1.25rem }
+.brand{ display:flex; align-items:center; gap:.5rem; font-size:1.125rem; font-weight:600; letter-spacing:-.01em; transform-origin:center }
+.brand .ic{ font-size:1.25rem; color:var(--accent) }
+.nav-primary{ display:none }
+.nav-primary ul{ display:flex; align-items:center; gap:2rem; font-size:.875rem; font-weight:500 }
+.nav-primary button{ display:inline-flex; align-items:center; gap:.375rem }
+.nav-primary button>span.lift{ display:inline-flex; align-items:center; gap:.375rem; opacity:.8 }
+.caret{ font-size:.75rem; opacity:.6 }
+.header-right{ display:flex; align-items:center; gap:.75rem }
+.clock{ display:none; align-items:center; gap:.75rem; border:1px solid rgba(230,229,226,.8); background:rgba(255,255,255,.4);
+  backdrop-filter:blur(4px); border-radius:.875rem; padding:.5rem .75rem; font-size:.75rem; color:rgba(17,17,17,.7) }
+.clock-label{ color:rgba(17,17,17,.45) }
+.clock-time{ min-width:3.5rem; font-variant-numeric:tabular-nums; font-weight:500; color:#111 }
+.clock-sep{ color:rgba(17,17,17,.3) }
+.clock-date{ font-weight:500 }
+.menu-btn{ border:1px solid rgba(230,229,226,.8); background:rgba(255,255,255,.4); backdrop-filter:blur(4px); border-radius:.875rem }
+.menu-btn:hover{ background:rgba(255,255,255,.7) }
+.menu-btn>span{ display:flex; align-items:center; gap:.5rem; padding:.5rem 1rem; font-size:.75rem; font-weight:500;
+  text-transform:uppercase; letter-spacing:.05em; transform-origin:center }
+.menu-btn .ic{ font-size:.875rem }
+.menu-word{ display:none }
+@media (min-width:640px){ .header-in{ padding:1.5rem 2rem } .menu-word{ display:inline } }
+@media (min-width:768px){ .clock{ display:flex } }
+@media (min-width:1024px){ .nav-primary{ display:flex } }
+
+/* ---------- hero ---------- */
+.hero{ position:relative; isolation:isolate; overflow:hidden; border-radius:0 0 2rem 2rem; background:var(--hero-to) }
+.liquid{ position:absolute; inset:0; z-index:0 }
+.liquid img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover }
+.liquid canvas{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none }
+.hero-vignette{ position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:linear-gradient(to bottom, rgba(255,255,255,.35), transparent, rgba(255,255,255,.35)) }
+.hero-watermark{ pointer-events:none; position:absolute; inset-inline:0; bottom:7rem; z-index:1; text-align:center;
+  user-select:none; font-weight:700; line-height:1; font-size:var(--text-watermark); color:rgba(255,255,255,.4) }
+.hero-grid{ position:relative; z-index:20; display:flex; flex-direction:column; gap:2rem; padding:7rem 1.25rem 5rem }
+.hero-left{ display:flex; flex-direction:column; gap:1.75rem }
+.hero-h1{ max-width:18ch; font-size:2.25rem; font-weight:600; line-height:.98; letter-spacing:-.02em }
+.hero-rating{ display:flex; align-items:center; gap:.75rem }
+.hero-stars{ color:var(--accent); display:inline-flex; gap:.125rem; font-size:1rem }
+.hero-rating-txt{ font-size:.875rem; font-weight:500; color:rgba(17,17,17,.7) }
+.hero-ctas{ display:flex; flex-wrap:wrap; gap:.75rem }
+.hero-right{ display:flex; flex-direction:column; align-items:flex-start; gap:2rem }
+.hero-status{ display:flex; align-items:center; justify-content:space-between; gap:.75rem; border-top:1px solid rgba(17,17,17,.1);
+  padding:1.25rem; font-size:.75rem; font-weight:500; text-transform:uppercase; letter-spacing:.025em; color:rgba(17,17,17,.6);
+  position:relative; z-index:20 }
+.hero-status .mid{ display:none }
+.hero-status .end{ display:inline-flex; align-items:center; gap:.5rem }
+@media (min-width:640px){
+  .hero-grid{ padding-left:2rem; padding-right:2rem }
+  .hero-h1{ font-size:3rem }
+  .hero-status{ padding-left:2rem; padding-right:2rem }
+  .hero-status .mid{ display:inline }
+}
+@media (min-width:768px){ .hero-h1{ font-size:3.75rem } }
+@media (min-width:1024px){
+  .hero-grid{ display:grid; min-height:100lvh; grid-template-columns:repeat(12,1fr); gap:2.5rem; padding:9rem 2rem 7rem; align-content:center }
+  .hero-left{ grid-column:span 7 }
+  .hero-right{ grid-column:span 5; align-items:flex-end }
+}
+
+/* hero card */
+.hero-card{ width:100%; max-width:24rem; border-radius:var(--radius-card-sm); background:rgba(255,255,255,.7); padding:.5rem;
+  box-shadow:0 1px 2px 0 rgba(0,0,0,.05), 0 0 0 1px rgba(230,229,226,.7); backdrop-filter:blur(12px) }
+.hero-card-row{ display:flex; gap:.5rem; cursor:pointer; border-radius:.875rem; width:100%; text-align:left }
+.hero-card-tile{ aspect-ratio:1; width:6rem; display:grid; place-items:center; border-radius:.875rem; background:var(--ink);
+  font-size:1.875rem; color:#fff; flex:none }
+.hero-card-tile .ic{ color:var(--accent-from) }
+.hero-card-panel{ flex:1; border-radius:.875rem; background:rgba(241,240,238,.7); padding:.75rem; display:flex;
+  flex-direction:column; justify-content:space-between; min-width:0 }
+.hero-card-slot{ position:relative; min-height:3.25rem }
+.hero-card-item{ position:absolute; inset:0 }
+.hero-card-cap{ font-size:.65rem; font-weight:500; text-transform:uppercase; letter-spacing:.05em; color:rgba(17,17,17,.45) }
+.hero-card-title{ max-width:8rem; font-size:.875rem; font-weight:500; line-height:1.35 }
+.hero-card-bottom{ display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-top:.5rem }
+.hero-dots{ display:flex; align-items:center; gap:.25rem }
+.hero-dot{ height:.25rem; border-radius:var(--radius-pill); width:.375rem; background:rgba(17,17,17,.2); transition:all .3s }
+.hero-dot.on{ width:1rem; background:rgba(17,17,17,.7) }
+.hero-navs{ display:flex; align-items:center; gap:.375rem }
+.hero-nav{ width:1.75rem; height:1.75rem; display:grid; place-items:center; border-radius:var(--radius-pill); background:#fff;
+  color:rgba(17,17,17,.7); box-shadow:0 0 0 1px var(--line); font-size:.75rem }
+.hero-nav:hover{ color:#111 }
+.hero-nav.prev .ic{ transform:rotate(180deg) }
+
+/* partners */
+.partners{ width:100%; max-width:24rem }
+.partners-label{ margin-bottom:.75rem; font-size:.75rem; font-weight:500; color:rgba(17,17,17,.45); text-align:left }
+.partners-grid{ display:grid; grid-template-columns:repeat(4,1fr); column-gap:1rem; row-gap:.75rem }
+.partner{ display:flex; align-items:center; gap:.375rem; font-size:.75rem; color:rgba(17,17,17,.7); opacity:.7 }
+.partner .ic{ font-size:.875rem; color:rgba(17,17,17,.4) }
+@media (min-width:1024px){
+  .hero-card{ width:19rem; max-width:19rem }
+  .partners{ width:19rem; max-width:19rem }
+  .partners-label{ text-align:right }
+}
+
+/* ---------- about ---------- */
+.about{ background:#fff }
+.about-in{ display:grid; grid-template-columns:1fr; align-items:center; gap:3rem; padding:5rem 1.25rem }
+.about-left{ position:relative; min-height:14rem }
+.about-globe-bg{ position:absolute; left:-1rem; top:50%; transform:translateY(-50%); font-size:12rem; color:rgba(17,17,17,.1) }
+.about-eyebrow{ position:relative }
+.about-note{ position:absolute; left:0; bottom:0; display:flex; align-items:center; gap:.75rem; font-size:.875rem; color:rgba(17,17,17,.7) }
+.about-note .ic{ font-size:1.5rem; color:#111 }
+.about-note span.txt{ max-width:14rem; display:block }
+.about-right{ display:flex; flex-direction:column; gap:2.5rem }
+.about-h2{ font-size:1.5rem; font-weight:500; line-height:1.35; letter-spacing:-.01em }
+.about-h2 .muted-txt{ color:var(--muted) }
+.about-foot{ display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:1.5rem;
+  border-top:1px solid var(--line); padding-top:1.5rem }
+.about-social-label{ font-size:.875rem; color:rgba(17,17,17,.45) }
+.about-socials{ display:flex; gap:.5rem; margin-top:.75rem }
+.social{ width:2.25rem; height:2.25rem; display:grid; place-items:center; border-radius:var(--radius-pill); font-size:.875rem;
+  background:var(--surface); color:rgba(17,17,17,.7) }
+.social.accent{ background:var(--accent); color:#fff }
+.social>span{ display:grid; place-items:center; transform-origin:center }
+@media (min-width:640px){ .about-in{ padding-left:2rem; padding-right:2rem } .about-globe-bg{ font-size:16rem } .about-h2{ font-size:1.875rem } }
+@media (min-width:1024px){
+  .about-in{ grid-template-columns:1fr 1fr; padding-top:7rem; padding-bottom:7rem }
+  .about-left{ min-height:20rem }
+  .about-globe-bg{ left:-1.5rem; font-size:20rem }
+}
+
+/* ---------- create band ---------- */
+.create{ background:#fff }
+.create-list{ display:flex; flex-direction:column; gap:.75rem; padding:2.5rem 1.25rem }
+.create-list>li{ flex:1 }
+.create-tile{ display:grid; place-items:center; height:6rem; border-radius:var(--radius-pill); font-size:1.875rem; font-weight:500;
+  transform-origin:center }
+.create-tile.light{ background:var(--surface); color:#111 }
+.create-tile.accent{ background:linear-gradient(to bottom right,var(--accent-from),var(--accent-to)); color:#fff }
+.create-tile.dark{ background:var(--ink); color:#fff }
+.create-tile.dark .ic{ font-size:2.25rem }
+.create-tile.ghost{ background:rgba(241,240,238,.6); color:rgba(17,17,17,.35) }
+@media (min-width:640px){
+  .create-list{ flex-direction:row; gap:1rem; padding-left:2rem; padding-right:2rem }
+  .create-tile{ height:10rem; font-size:2.25rem }
+  .create-tile.dark .ic{ font-size:3rem }
+}
+
+/* ---------- portfolio (radial scroll gallery) ---------- */
+.works{ background:#fff }
+.works-in{ padding:2.5rem 1.25rem 2rem }
+.works-head{ display:flex; flex-direction:column; align-items:center; gap:1.25rem; text-align:center }
+.works-h2{ font-size:2.25rem; font-weight:600; letter-spacing:-.02em; width:fit-content; margin-inline:auto }
+.works-hint{ display:inline-flex; align-items:center; gap:.5rem; font-size:.75rem; font-weight:500;
+  text-transform:uppercase; letter-spacing:.05em; color:rgba(17,17,17,.45) }
+.works-hint .bob{ display:inline-block; animation:rsg-bob 1.6s ease-in-out infinite }
+@keyframes rsg-bob{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(4px) } }
+
+/* stage — ScrollTrigger pins this while the wheel turns */
+.rsg{ position:relative; width:100%; display:flex; align-items:flex-end; justify-content:center }
+.rsg-mask{ position:relative; width:100%; overflow:hidden;
+  -webkit-mask-image:linear-gradient(to top, transparent 0%, #000 40%, #000 100%);
+          mask-image:linear-gradient(to top, transparent 0%, #000 40%, #000 100%) }
+.rsg-wheel{ position:absolute; left:50%; transform:translateX(-50%); will-change:transform;
+  margin:0; padding:0; list-style:none }
+.rsg-wheel>li{ position:absolute; top:50%; left:50%; z-index:10 }
+.rsg-wheel>li.is-hovered{ z-index:100 }
+.rsg-anim{ display:block }
+.rsg-hit{ display:block; cursor:pointer; outline:none; border-radius:var(--radius-card-sm);
+  will-change:transform; transition:transform .5s cubic-bezier(.16,1,.3,1),
+    filter .5s ease-out, opacity .5s ease-out }
+.rsg-hit:focus-visible{ outline:2px solid var(--accent); outline-offset:4px }
+.rsg-wheel.is-hovering .rsg-hit{ filter:blur(2px) grayscale(1); opacity:.4 }
+.rsg-wheel>li.is-hovered .rsg-hit{ transform:translateY(-2rem) scale(1.25); filter:none; opacity:1 }
+
+/* card */
+.rsg-card{ position:relative; width:9.5rem; height:13rem; overflow:hidden;
+  border-radius:var(--radius-card-sm); background:var(--ink); color:#fff;
+  box-shadow:0 0 0 1px rgba(255,255,255,.06), 0 1.25rem 2.5rem -1.25rem rgba(17,17,17,.5) }
+.rsg-card>img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  transform:scale(1); filter:grayscale(.25);   /* no blur — these are real UI screenshots */
+  transition:transform .7s cubic-bezier(.16,1,.3,1), filter .7s ease-out }
+.rsg-wheel>li.is-hovered .rsg-card>img{ transform:scale(1.1); filter:none }
+.rsg-veil{ position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(10,10,10,.92), rgba(10,10,10,.15) 55%, transparent) }
+.rsg-body{ position:absolute; inset:0; display:flex; flex-direction:column; justify-content:space-between; padding:1rem }
+.rsg-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem }
+.rsg-cat{ display:inline-flex; border-radius:var(--radius-pill); background:rgba(255,255,255,.16);
+  backdrop-filter:blur(4px); padding:.25rem .625rem; font-size:.625rem; font-weight:500;
+  text-transform:uppercase; letter-spacing:.05em; color:#fff }
+.rsg-arrow{ width:1.5rem; height:1.5rem; display:grid; place-items:center; flex:none;
+  border-radius:var(--radius-pill); background:var(--accent); color:#fff; font-size:.75rem;
+  opacity:0; transform:rotate(-45deg); transition:opacity .5s ease-out, transform .5s ease-out }
+.rsg-wheel>li.is-hovered .rsg-arrow{ opacity:1; transform:rotate(0deg) }
+.rsg-bottom h3{ font-size:1.125rem; font-weight:600; line-height:1.2; letter-spacing:-.01em;
+  transform:translateY(.5rem); transition:transform .5s ease-out }
+.rsg-wheel>li.is-hovered .rsg-bottom h3{ transform:translateY(0) }
+.rsg-year{ margin-top:.125rem; font-size:.6875rem; color:rgba(255,255,255,.5) }
+.rsg-rule{ height:2px; margin-top:.5rem; width:0; opacity:0; background:var(--accent);
+  transition:width .5s ease-out, opacity .5s ease-out }
+.rsg-wheel>li.is-hovered .rsg-rule{ width:100%; opacity:1 }
+@media (min-width:640px){
+  .works-in{ padding-left:2rem; padding-right:2rem }
+  .works-h2{ font-size:3rem }
+  .rsg-card{ width:12.5rem; height:17.5rem }
+}
+@media (min-width:1024px){ .rsg-card{ width:15rem; height:20rem } }
+
+/* ---------- services ---------- */
+.services{ background:#fff }
+.services-in{ padding:5rem 1.25rem }
+.services-h2{ margin:1.25rem 0 3rem; max-width:16ch; font-size:2.25rem; font-weight:600; letter-spacing:-.02em }
+.svc-li{ border-top:1px solid var(--line) }
+.svc-li:first-child{ border-top:none }
+.svc-row{ display:flex; align-items:center; gap:1rem; border-radius:var(--radius-card-sm); padding:1.5rem;
+  background:rgba(241,240,238,0) }
+.svc-idx{ width:1.75rem; font-size:.875rem; font-weight:500; color:rgba(17,17,17,.4); flex:none }
+.svc-row h3{ flex:1; font-size:1.5rem; font-weight:500; letter-spacing:-.01em }
+.svc-desc{ display:none; max-width:20rem; font-size:.875rem; color:rgba(17,17,17,.55) }
+.svc-badge{ width:2.5rem; height:2.5rem; display:grid; place-items:center; border-radius:var(--radius-pill);
+  background:var(--ink); color:#fff; font-size:1rem; flex:none }
+.svc-badge>span{ display:grid; place-items:center }
+@media (min-width:640px){
+  .services-in{ padding-left:2rem; padding-right:2rem }
+  .services-h2{ margin-bottom:3.5rem; font-size:3rem }
+  .svc-row{ gap:1.5rem; padding-top:2rem; padding-bottom:2rem }
+  .svc-idx{ width:2.5rem }
+  .svc-row h3{ font-size:1.875rem }
+  .svc-badge{ width:3rem; height:3rem }
+}
+@media (min-width:768px){ .svc-row h3{ font-size:2.25rem } }
+@media (min-width:1024px){ .services-in{ padding-top:7rem; padding-bottom:7rem } .svc-desc{ display:block } }
+
+/* ---------- archive sphere (lives inside the stats panel) ---------- */
+.stats-top{ display:grid; grid-template-columns:1fr; gap:2.5rem; align-items:center }
+.stats-copy{ display:flex; flex-direction:column }
+.stats-orbit{ width:100%; display:flex; justify-content:center }
+.orbit-hint{ margin-top:1.25rem; display:inline-flex; align-items:center; gap:.5rem; font-size:.75rem;
+  font-weight:500; text-transform:uppercase; letter-spacing:.05em; color:rgba(255,255,255,.4) }
+/* isolate: nodes carry z-index 1000+ for depth sorting — without a stacking context
+   here they would paint over the spotlight overlay */
+.orbit-stage{ position:relative; isolation:isolate; touch-action:pan-y; cursor:grab;
+  user-select:none; -webkit-user-select:none }
+.orbit-stage.is-dragging{ cursor:grabbing }
+.orbit-node{ position:absolute; left:50%; top:50%; padding:0; border:none; background:none; display:block;
+  border-radius:var(--radius-pill); overflow:hidden; cursor:pointer; transform-origin:center;
+  will-change:transform, opacity }
+.orbit-node>img{ width:100%; height:100%; object-fit:cover; border-radius:var(--radius-pill);
+  pointer-events:none; -webkit-user-drag:none }
+/* a ring, not a drop shadow — shadows do nothing against the ink panel */
+.orbit-node::after{ content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.25) }
+.orbit-node:focus-visible{ outline:2px solid var(--accent-from); outline-offset:3px }
+@media (min-width:1024px){ .stats-top{ grid-template-columns:1fr 1fr; gap:4rem } }
+
+/* case-study showcase (opened from a portfolio card) */
+.case{ position:fixed; inset:0; z-index:112; display:flex; align-items:center; justify-content:center;
+  padding:1rem; background:rgba(17,17,17,.4); backdrop-filter:blur(16px) }
+.case-panel{ position:relative; width:100%; max-width:56rem; max-height:90vh; overflow:hidden;
+  display:flex; flex-direction:column; border-radius:var(--radius-card); background:#fff;
+  box-shadow:0 25px 50px -12px rgba(0,0,0,.3), 0 0 0 1px var(--line);
+  opacity:0; transform:translateY(28px) }
+.case-scroll{ flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column }
+.case-media{ background:var(--ink); display:grid; place-items:center; padding:1.5rem; flex:none }
+.case-media img{ max-width:100%; max-height:34vh; width:auto; height:auto;
+  border-radius:var(--radius-control) }
+.case-body{ padding:1.5rem }
+.case-cat{ display:inline-flex; border-radius:var(--radius-pill); background:var(--surface);
+  padding:.3125rem .75rem; font-size:.6875rem; font-weight:500; text-transform:uppercase;
+  letter-spacing:.05em; color:rgba(17,17,17,.6) }
+.case-body h2{ margin-top:.875rem; font-size:1.5rem; font-weight:600; letter-spacing:-.01em }
+.case-desc{ margin-top:.75rem; font-size:.9375rem; line-height:1.6; color:rgba(17,17,17,.65) }
+.case-meta{ margin-top:1.5rem; display:grid; grid-template-columns:1fr; gap:1.25rem;
+  border-top:1px solid var(--line); padding-top:1.5rem }
+.case-meta dt{ font-size:.6875rem; font-weight:500; text-transform:uppercase; letter-spacing:.05em;
+  color:rgba(17,17,17,.45) }
+.case-meta dd{ margin-top:.375rem; font-size:.875rem; font-weight:500; line-height:1.45 }
+.case-actions{ margin-top:1.75rem; display:flex; flex-wrap:wrap; align-items:center; gap:.75rem }
+.case-note{ font-size:.75rem; color:rgba(17,17,17,.45) }
+.case-close{ position:absolute; right:1rem; top:1rem; z-index:2; width:2.25rem; height:2.25rem;
+  display:grid; place-items:center; border-radius:var(--radius-pill); background:rgba(10,10,10,.55);
+  color:#fff; font-size:.875rem; backdrop-filter:blur(4px) }
+.case-close:hover{ background:rgba(10,10,10,.85) }
+@media (min-width:640px){
+  .case-media{ padding:2rem }
+  .case-body{ padding:2rem }
+  .case-body h2{ font-size:1.875rem }
+  .case-meta{ grid-template-columns:repeat(2,1fr) }
+}
+@media (min-width:900px){
+  .case-scroll{ flex-direction:row; overflow:hidden }
+  .case-media{ width:45%; align-self:stretch }
+  .case-media img{ max-height:70vh }
+  .case-body{ width:55%; overflow-y:auto; min-height:0 }
+}
+
+/* spotlight — a client review lifted off the sphere */
+.spot{ position:fixed; inset:0; z-index:110; display:flex; align-items:center; justify-content:center;
+  padding:1rem; background:rgba(17,17,17,.35); backdrop-filter:blur(16px) }
+.spot-panel{ position:relative; width:100%; max-width:34rem; max-height:88vh; overflow-y:auto;
+  border-radius:var(--radius-card); background:#fff; opacity:0; transform:translateY(28px);
+  box-shadow:0 25px 50px -12px rgba(0,0,0,.25), 0 0 0 1px var(--line) }
+.spot-close{ position:absolute; right:1rem; top:1rem; width:2.25rem; height:2.25rem; display:grid;
+  place-items:center; border-radius:var(--radius-pill); background:var(--surface);
+  color:rgba(17,17,17,.6); font-size:.875rem }
+.spot-close:hover{ background:var(--surface-2); color:#111 }
+.spot-body{ padding:2rem 1.5rem 1.5rem }
+.spot-kicker{ display:inline-flex; align-items:center; gap:.5rem; font-size:.6875rem; font-weight:500;
+  text-transform:uppercase; letter-spacing:.05em; color:rgba(17,17,17,.45) }
+.spot-kicker::before{ content:""; width:.375rem; height:.375rem; border-radius:var(--radius-pill);
+  background:var(--accent) }
+.spot-quote{ margin-top:1rem; font-size:1.125rem; line-height:1.55; font-weight:500;
+  letter-spacing:-.01em; color:#111 }
+.spot-by{ margin-top:1.5rem; display:flex; align-items:center; gap:.875rem;
+  border-top:1px solid var(--line); padding-top:1.25rem }
+.spot-avatar{ width:2.75rem; height:2.75rem; flex:none; border-radius:var(--radius-pill);
+  object-fit:cover; box-shadow:0 0 0 1px var(--line) }
+.spot-job{ font-size:.8125rem; line-height:1.4; color:rgba(17,17,17,.6) }
+.spot-cta{ margin-top:1.5rem }
+@media (min-width:640px){
+  .spot-body{ padding:2.5rem 2rem 2rem }
+  .spot-quote{ font-size:1.25rem }
+}
+
+/* ---------- stats ---------- */
+.stats{ background:#fff }
+.stats-in{ padding:0 1.25rem 5rem }
+.stats-panel{ border-radius:var(--radius-card); background:var(--ink); padding:3rem 1.5rem; color:#fff }
+.stats-h2{ margin-top:1rem; max-width:20ch; font-size:1.875rem; font-weight:500; letter-spacing:-.01em }
+.stats-grid{ margin-top:3.5rem; display:grid; grid-template-columns:repeat(2,1fr); column-gap:2rem; row-gap:3rem }
+.stat-num{ font-size:3rem; font-weight:600; letter-spacing:-.02em }
+.stat-label{ margin-top:.75rem; font-size:.875rem; color:rgba(255,255,255,.55) }
+@media (min-width:640px){
+  .stats-in{ padding-left:2rem; padding-right:2rem }
+  .stats-panel{ padding:4rem 2rem }
+  .stat-num{ font-size:3.75rem }
+}
+@media (min-width:768px){ .stats-panel{ padding-inline:4rem } .stats-h2{ font-size:2.25rem } .stat-num{ font-size:4.5rem } }
+@media (min-width:1024px){ .stats-in{ padding-bottom:7rem } .stats-grid{ grid-template-columns:repeat(4,1fr) } }
+
+/* ---------- footer ---------- */
+.footer{ position:relative; overflow:hidden; border-radius:2rem 2rem 0 0; background:var(--ink); color:#fff }
+.footer-in{ position:relative; z-index:10; padding:5rem 1.25rem 2.5rem }
+.footer-cta{ display:flex; flex-direction:column; gap:2rem; border-bottom:1px solid rgba(255,255,255,.1); padding-bottom:4rem }
+.footer-h2{ max-width:16ch; font-size:2.25rem; font-weight:600; letter-spacing:-.02em }
+.footer-cols{ display:grid; grid-template-columns:1fr; gap:3rem; padding-block:4rem }
+.footer-brand{ display:flex; align-items:center; gap:.5rem; font-size:1.125rem; font-weight:600 }
+.footer-brand .ic{ font-size:1.25rem }
+.footer-tag{ margin-top:1rem; max-width:20rem; font-size:.875rem; color:rgba(255,255,255,.55) }
+.footer-col h3{ font-size:.75rem; text-transform:uppercase; letter-spacing:.025em; color:rgba(255,255,255,.4); font-weight:500 }
+.footer-col ul{ margin-top:1.25rem; display:flex; flex-direction:column; gap:.75rem; font-size:.875rem }
+.footer-legal{ display:flex; flex-direction:column; align-items:center; justify-content:space-between; gap:1rem;
+  border-top:1px solid rgba(255,255,255,.1); padding-top:2rem; font-size:.75rem; color:rgba(255,255,255,.45) }
+.footer-legal-links{ display:flex; gap:1.5rem }
+.footer-wm{ position:absolute; inset-inline:0; bottom:-1.5rem; z-index:0; text-align:center; pointer-events:none;
+  user-select:none; font-weight:700; line-height:1; font-size:var(--text-watermark); color:rgba(255,255,255,.05) }
+@media (min-width:640px){
+  .footer-in{ padding-left:2rem; padding-right:2rem }
+  .footer-h2{ font-size:3rem }
+  .footer-legal{ flex-direction:row }
+}
+@media (min-width:768px){ .footer-h2{ font-size:3.75rem } .footer-cols{ grid-template-columns:repeat(2,1fr) } }
+@media (min-width:1024px){
+  .footer-in{ padding-top:6rem }
+  .footer-cta{ flex-direction:row; align-items:flex-end; justify-content:space-between }
+  .footer-cols{ grid-template-columns:repeat(4,1fr) }
+}
+
+/* ---------- nav menu overlay ---------- */
+.navmenu{ position:fixed; inset:0; z-index:115; display:flex; flex-direction:column; background:var(--ink); color:#fff; opacity:0 }
+.navmenu>.shell{ width:100% }
+.navmenu-top{ display:flex; align-items:center; justify-content:space-between; padding:1.25rem }
+.navmenu-brand{ display:flex; align-items:center; gap:.5rem; font-size:1.125rem; font-weight:600 }
+.navmenu-brand .ic{ font-size:1.25rem; color:var(--accent-from) }
+.navmenu-close{ display:inline-flex; align-items:center; gap:.5rem; border:1px solid rgba(255,255,255,.15); border-radius:.875rem;
+  padding:.5rem 1rem; font-size:.75rem; font-weight:500; text-transform:uppercase; letter-spacing:.05em; color:rgba(255,255,255,.7) }
+.navmenu-close:hover{ border-color:rgba(255,255,255,.4); color:#fff }
+.navmenu-close .ic{ font-size:.875rem }
+.navmenu-nav{ flex:1; display:flex; flex-direction:column; justify-content:center }
+.navmenu-nav ul{ display:flex; flex-direction:column; gap:.25rem; padding-inline:1.25rem }
+.navmenu-item{ width:100%; display:flex; align-items:baseline; gap:1rem; padding-block:.5rem; text-align:left;
+  font-size:2.25rem; font-weight:600; letter-spacing:-.02em; transform:translateY(1rem); opacity:0;
+  transition:transform .5s ease-out, opacity .5s ease-out }
+.navmenu.entered .navmenu-item{ transform:translateY(0); opacity:1 }
+.navmenu-num{ font-size:1rem; font-weight:400; color:rgba(255,255,255,.3); transition:color .3s }
+.navmenu-label{ color:rgba(255,255,255,.7); transition:color .3s }
+.navmenu-item:hover .navmenu-num{ color:var(--accent-from) }
+.navmenu-item:hover .navmenu-label{ color:#fff }
+.navmenu-bottom{ display:flex; flex-direction:column; gap:.75rem; border-top:1px solid rgba(255,255,255,.1);
+  padding:1.5rem 1.25rem; font-size:.75rem; text-transform:uppercase; letter-spacing:.025em; color:rgba(255,255,255,.45) }
+.navmenu-bottom button{ color:rgba(255,255,255,.7) }
+.navmenu-bottom button:hover{ text-decoration:underline; color:#fff }
+@media (min-width:640px){
+  .navmenu-top{ padding:1.5rem 2rem }
+  .navmenu-nav ul{ padding-inline:2rem }
+  .navmenu-item{ font-size:3.75rem }
+  .navmenu-bottom{ flex-direction:row; align-items:center; justify-content:space-between; padding-left:2rem; padding-right:2rem }
+}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ============ PAGE LOADER ============ -->
+<div class="loader" id="loader">
+  <div class="loader-center" id="loaderCenter">
+    <div class="loader-brand"><span class="ic" data-icon="logo"></span>Aksa</div>
+    <p class="loader-tag">Market-ready apps, delivered with speed and premium quality.</p>
+  </div>
+  <div class="loader-progress">
+    <div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div>
+    <div class="loader-meta"><span>Loading</span><span class="loader-count tnum" id="loaderCount">000</span></div>
+  </div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header class="header rv" data-gate="ready" data-delay="150" style="--ry:-14px;--rd:.7s;--re:cubic-bezier(.22,1,.36,1)">
+  <div class="shell header-in">
+    <button class="brand-btn" data-scroll="home" aria-label="Aksa Nur Irwan — back to top">
+      <span class="brand" data-hover="scale" data-to="1.04" data-cfg="320,18"><span class="ic" data-icon="logo"></span>Aksa Nur Irwan</span>
+    </button>
+
+    <nav class="nav-primary" aria-label="Primary">
+      <ul>
+        <li><button data-nav="home" aria-current="page"><span class="lift" data-hover="lift" data-cfg="320,22">Home</span></button></li>
+        <li><button data-nav="works"><span class="lift" data-hover="lift" data-cfg="320,22">Work</span></button></li>
+        <li><button data-nav="services"><span class="lift" data-hover="lift" data-cfg="320,22">Services<span class="caret" aria-hidden="true">▾</span></span></button></li>
+        <li><button data-nav="about"><span class="lift" data-hover="lift" data-cfg="320,22">About</span></button></li>
+        <li><button data-nav="contact"><span class="lift" data-hover="lift" data-cfg="320,22">Contact</span></button></li>
+      </ul>
+    </nav>
+
+    <div class="header-right">
+      <div class="clock">
+        <span class="clock-label">Local time</span>
+        <span class="clock-time" id="clockTime">9:41am</span>
+        <span class="clock-sep">•</span>
+        <span class="clock-date" id="clockDate">12 March, 2025</span>
+      </div>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+        <span data-hover="scale" data-to="1.05" data-cfg="320,18"><span class="ic" data-icon="grid"></span><span class="menu-word">Menu</span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="liquid" id="liquid">
+    <!-- HERO IMAGE 1 of 2 — always-visible base layer (the LCP image). Edit this src to swap it.
+         HERO IMAGE 2 of 2, the cursor-trail layer, is AFTER_SRC in the script block below. -->
+    <img id="heroBase" alt="A Aksa Nur Irwan" fetchpriority="high"
+         src="after.png" />
+    <canvas aria-hidden="true"></canvas>
+  </div>
+  <div class="hero-vignette"></div>
+  <div class="hero-watermark rv" data-gate="ready" data-delay="300" style="--ry:20px;--ro:.4;--rd:1s" aria-hidden="true">AKSA</div>
+
+  <div class="shell hero-grid">
+    <div class="hero-left">
+      <p class="eyebrow rv" data-gate="ready" data-delay="200" style="--ry:10px">Flutter &amp; FlutterFlow Developer</p>
+      <h1 class="hero-h1 lines" data-gate="ready" data-delay="250" data-stagger="120">
+        <span class="ln"><span>Complex Inside.</span></span>
+        <span class="ln"><span>Effortless Outside.</span></span>
+      </h1>
+      <div class="hero-rating rv" data-gate="ready" data-delay="650" style="--ry:10px">
+        <span class="hero-stars" aria-hidden="true"><span class="ic" data-icon="star"></span><span class="ic" data-icon="star"></span><span class="ic" data-icon="star"></span><span class="ic" data-icon="star"></span><span class="ic" data-icon="star"></span></span>
+        <span class="hero-rating-txt">80+ products delivered</span>
+      </div>
+      <div class="hero-ctas rv" data-gate="ready" data-delay="750" style="--ry:10px">
+        <a class="pill v-dark has-arrow" href="https://calendly.com/andiaksanurirwan/30min" target="_blank" rel="noopener noreferrer" data-hover="pill" data-cfg="320,18">
+          <span class="pill-in">Book a call<span class="pill-badge"><span class="ic" data-icon="arrow-up-right"></span></span></span>
+        </a>
+        <button class="pill v-outline" data-scroll="works" data-hover="pill" data-cfg="320,18">
+          <span class="pill-in">View Work</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-card rv" data-gate="ready" data-delay="400" style="--ry:16px;--rs:.96">
+        <button class="hero-card-row" id="heroCardRow" aria-label="Next highlight">
+          <span class="hero-card-tile"><span class="ic" data-icon="logo"></span></span>
+          <span class="hero-card-panel">
+            <span class="hero-card-slot" id="heroSlot"></span>
+            <span class="hero-card-bottom">
+              <span class="hero-dots" id="heroDots" aria-hidden="true"></span>
+              <span class="hero-navs">
+                <span class="hero-nav prev" id="heroPrev" role="button" tabindex="0" aria-label="Previous"><span class="ic" data-icon="arrow-right"></span></span>
+                <span class="hero-nav next" id="heroNext" role="button" tabindex="0" aria-label="Next"><span class="ic" data-icon="arrow-right"></span></span>
+              </span>
+            </span>
+          </span>
+        </button>
+      </div>
+
+      <div class="partners rv" data-gate="ready" data-delay="550" style="--ry:14px">
+        <p class="partners-label">Trusted by</p>
+        <ul class="partners-grid" id="partnersGrid"></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell hero-status rv" data-gate="ready" data-delay="900" style="--ry:0px">
+    <span>Upwork Top 1% FlutterFlow</span>
+    <span class="mid">Clients in 20+ countries</span>
+    <span class="end">Scroll to explore <span aria-hidden="true">↓</span></span>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="about" id="about">
+  <div class="shell about-in">
+    <div class="about-left">
+      <span class="ic about-globe-bg" data-icon="globe" aria-hidden="true"></span>
+      <p class="eyebrow about-eyebrow">About</p>
+      <div class="about-note rv" style="--ry:12px">
+        <span class="ic" data-icon="globe"></span>
+        <span class="txt">Working remotely with clients across 20+ countries.</span>
+      </div>
+    </div>
+    <div class="about-right">
+      <h2 class="about-h2 words" data-stagger="35">I build mobile and web products for teams worldwide — <span class="muted-txt">Flutter apps, data-driven dashboards, and the AI integrations that make them genuinely useful.</span></h2>
+      <div class="about-foot rv" data-delay="200" style="--ry:12px">
+        <div>
+          <p class="about-social-label">Find me online</p>
+          <div class="about-socials">
+            <a class="social accent" href="https://www.upwork.com/freelancers/~0167dcc6b7d174e749" target="_blank" rel="noopener noreferrer" aria-label="Upwork profile" title="Upwork"><span data-hover="scale" data-to="1.18" data-cfg="320,16"><span class="ic" data-icon="circle-dot"></span></span></a>
+            <a class="social" href="https://www.linkedin.com/in/aksanurirwan/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile" title="LinkedIn"><span data-hover="scale" data-to="1.18" data-cfg="320,16"><span class="ic" data-icon="circle-dot"></span></span></a>
+            <a class="social" href="https://github.com/aaksa" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile" title="GitHub"><span data-hover="scale" data-to="1.18" data-cfg="320,16"><span class="ic" data-icon="circle-dot"></span></span></a>
+            <a class="social" href="https://contra.com/" target="_blank" rel="noopener noreferrer" aria-label="Contra profile" title="Contra"><span data-hover="scale" data-to="1.18" data-cfg="320,16"><span class="ic" data-icon="circle-dot"></span></span></a>
+          </div>
+        </div>
+        <a class="pill v-outline has-arrow" href="#about" data-hover="pill" data-cfg="320,18">
+          <span class="pill-in">About Me<span class="pill-badge"><span class="ic" data-icon="arrow-right"></span></span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CREATE BAND ============ -->
+<section class="create">
+  <ul class="shell create-list">
+    <li class="rv" data-delay="0" style="--ry:28px"><div class="create-tile light" data-hover="scale" data-to="1.03" data-cfg="300,18">Design</div></li>
+    <li class="rv" data-delay="120" style="--ry:28px"><div class="create-tile accent" data-hover="scale" data-to="1.03" data-cfg="300,18">Build</div></li>
+    <li class="rv" data-delay="240" style="--ry:28px"><div class="create-tile dark" data-hover="scale" data-to="1.03" data-cfg="300,18" aria-hidden="true"><span class="ic" data-icon="arrow-right"></span></div></li>
+    <li class="rv" data-delay="360" style="--ry:28px"><div class="create-tile ghost" data-hover="scale" data-to="1.03" data-cfg="300,18">Ship</div></li>
+  </ul>
+</section>
+
+<!-- ============ PORTFOLIO ============ -->
+<section class="works" id="works">
+  <div class="shell works-in">
+    <div class="works-head">
+      <p class="eyebrow bordered rv" style="--ry:10px">Portfolio</p>
+      <h2 class="works-h2 lines" data-delay="120" data-stagger="0"><span class="ln"><span>Selected Work</span></span></h2>
+      <p class="works-hint rv" data-delay="240" style="--ry:8px">Scroll to turn <span class="bob" aria-hidden="true">↓</span></p>
+    </div>
+  </div>
+  <div class="rsg" id="rsg">
+    <div class="rsg-mask">
+      <ul class="rsg-wheel" id="rsgWheel"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="services" id="services">
+  <div class="shell services-in">
+    <p class="eyebrow rv" style="--ry:10px">Services</p>
+    <h2 class="services-h2 lines" data-delay="120" data-stagger="0"><span class="ln"><span>What I do best</span></span></h2>
+    <ul id="servicesList"></ul>
+  </div>
+</section>
+
+<!-- ============ STATS ============ -->
+<section class="stats">
+  <div class="shell stats-in">
+    <div class="stats-panel rv" style="--ry:40px;--rs:.99">
+      <div class="stats-top">
+        <div class="stats-copy">
+          <p class="eyebrow light">By the numbers</p>
+          <h2 class="stats-h2 lines" data-delay="120" data-stagger="0"><span class="ln"><span>Proof in the work, not the words.</span></span></h2>
+          <p class="orbit-hint rv" data-delay="240" style="--ry:8px">Drag to spin · tap to read a review</p>
+        </div>
+        <div class="stats-orbit">
+          <div class="orbit-stage" id="orbitStage"></div>
+        </div>
+      </div>
+      <ul class="stats-grid" id="statsGrid"></ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer" id="contact">
+  <div class="shell footer-in">
+    <div class="footer-cta">
+      <h2 class="footer-h2 lines" data-stagger="100">
+        <span class="ln"><span>Let's build your</span></span>
+        <span class="ln"><span>next big thing.</span></span>
+      </h2>
+      <a class="pill v-light has-arrow" href="https://calendly.com/andiaksanurirwan/30min" target="_blank" rel="noopener noreferrer" data-hover="pill" data-cfg="320,18">
+        <span class="pill-in">Start a project<span class="pill-badge"><span class="ic" data-icon="arrow-up-right"></span></span></span>
+      </a>
+    </div>
+
+    <div class="footer-cols">
+      <div>
+        <div class="footer-brand"><span class="ic" data-icon="logo"></span>Aksa Nur Irwan</div>
+        <p class="footer-tag">Connect with me to discuss how we can accelerate your technical roadmap and scale your business growth.</p>
+      </div>
+      <div class="footer-col">
+        <h3>Navigate</h3>
+        <ul>
+          <li><a class="alink" href="#works"><span>Case studies</span></a></li>
+          <li><a class="alink" href="#services"><span>Services</span></a></li>
+          <li><a class="alink" href="#about"><span>About</span></a></li>
+          <li><a class="alink" href="#contact"><span>Contact</span></a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Services</h3>
+        <ul>
+          <li><a class="alink" href="#services"><span>Mobile apps</span></a></li>
+          <li><a class="alink" href="#services"><span>Web &amp; dashboards</span></a></li>
+          <li><a class="alink" href="#services"><span>Interactive experiences</span></a></li>
+          <li><a class="alink" href="#services"><span>AI &amp; automation</span></a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Elsewhere</h3>
+        <ul>
+          <li><a class="alink" href="https://www.upwork.com/freelancers/~0167dcc6b7d174e749" target="_blank" rel="noopener noreferrer"><span>Upwork</span></a></li>
+          <li><a class="alink" href="https://www.linkedin.com/in/aksanurirwan/" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span></a></li>
+          <li><a class="alink" href="https://github.com/aaksa" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a></li>
+          <li><a class="alink" href="https://contra.com/" target="_blank" rel="noopener noreferrer"><span>Contra</span></a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-legal">
+      <span>© 2026 A Aksa Nur Irwan. All rights reserved.</span>
+      <span class="footer-legal-links">
+        <a class="alink legal" href="#privacy"><span>Privacy</span></a>
+        <a class="alink legal" href="#terms"><span>Terms</span></a>
+      </span>
+    </div>
+  </div>
+  <div class="footer-wm" aria-hidden="true">AKSA</div>
+</footer>
+
+<div id="overlays"></div>
+
+<script type="importmap">
+{ "imports": {
+  "lenis": "https://unpkg.com/lenis@1.3.23/dist/lenis.mjs",
+  "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.13.0/index.js",
+  "gsap/ScrollTrigger": "https://cdn.jsdelivr.net/npm/gsap@3.13.0/ScrollTrigger.js"
+} }
+</script>
+<script type="module">
+import Lenis from 'lenis';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger);
+
+/* =========================================================
+   0 — constants
+   ========================================================= */
+// HERO IMAGE 2 of 2 — the layer painted in under the cursor. Edit this URL to swap it.
+// (HERO IMAGE 1 of 2, the always-visible base layer, is the src on <img id="heroBase"> in the markup.)
+const AFTER_SRC  = 'before.png';
+const CALENDLY = 'https://calendly.com/andiaksanurirwan/30min';
+const UPWORK_URL = 'https://www.upwork.com/freelancers/~0167dcc6b7d174e749';
+const FILL_MS = 1300;
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const canHover = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+const reduced  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* =========================================================
+   1 — Lenis + scroll lock
+   ========================================================= */
+window.scrollTo(0, 0);
+const lenis = new Lenis({ smoothWheel: true });
+// Lenis drives the scroll; gsap.ticker drives Lenis. One clock for both, so
+// ScrollTrigger reads the same scroll position Lenis just wrote.
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add(t => lenis.raf(t * 1000));
+gsap.ticker.lagSmoothing(0);
+
+let scrollEnabled = true;
+const docEl = document.documentElement;
+function stopScroll(){
+  scrollEnabled = false;
+  lenis.stop();
+  docEl.style.position = 'relative';
+  docEl.style.overflow = 'hidden';
+  docEl.style.height = '100%';
+}
+function startScroll(){
+  scrollEnabled = true;
+  lenis.start();
+  docEl.style.removeProperty('position');
+  docEl.style.removeProperty('overflow');
+  docEl.style.removeProperty('height');
+}
+function scrollToId(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  scrollEnabled = false;
+  lenis.stop();
+  setTimeout(()=>{
+    const top = el.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({ top, behavior:'smooth' });
+  }, 50);
+  setTimeout(()=>{ scrollEnabled = true; lenis.start(); }, 100);
+}
+
+/* =========================================================
+   2 — Adaptive grid (scale up above 1920)
+   ========================================================= */
+function applyAdaptiveGrid(){
+  const FONT_BASE = 16, baseWidth = 1920, coef = 0.6666;
+  const w = window.innerWidth;
+  const widthReduction = ((baseWidth - w) / baseWidth) * 100;
+  const size = FONT_BASE - (FONT_BASE * (widthReduction * coef)) / 100;
+  if (size > FONT_BASE) docEl.style.fontSize = size + 'px';
+  else docEl.style.removeProperty('font-size');
+}
+applyAdaptiveGrid();
+addEventListener('resize', applyAdaptiveGrid);
+
+/* =========================================================
+   3 — icons
+   ========================================================= */
+const SVG_ATTR = 'style="width:100%;height:100%;display:block" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"';
+const ICONS = {
+  logo: `<svg ${SVG_ATTR} viewBox="0 0 48 48" fill="currentColor"><path d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"/></svg>`,
+  'arrow-right': `<svg ${SVG_ATTR} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`,
+  'arrow-up-right': `<svg ${SVG_ATTR} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>`,
+  star: `<svg ${SVG_ATTR} viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.9l-5.8 3.05 1.1-6.46-4.69-4.58 6.49-.94L12 2.5z"/></svg>`,
+  globe: `<svg ${SVG_ATTR} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.25"/><path d="M12 2.75c2.6 2.3 4 5.8 4 9.25s-1.4 6.95-4 9.25c-2.6-2.3-4-5.8-4-9.25s1.4-6.95 4-9.25zM2.75 12h18.5"/></svg>`,
+  x: `<svg ${SVG_ATTR} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M20 4 4 20"/></svg>`,
+  'circle-dot': `<svg ${SVG_ATTR} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.2" fill="currentColor" stroke="none"/></svg>`,
+  grid: `<svg ${SVG_ATTR} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>`
+};
+function hydrateIcons(root=document){
+  root.querySelectorAll('[data-icon]').forEach(el=>{
+    const n = el.getAttribute('data-icon');
+    if(ICONS[n] && !el.firstElementChild) el.innerHTML = ICONS[n];
+  });
+}
+const icon = n => `<span class="ic" data-icon="${n}"></span>`;
+
+/* =========================================================
+   4 — spring helper
+   ========================================================= */
+function makeSpring(cfg, from, onUpdate, onRest){
+  const tension = cfg[0], friction = cfg[1];
+  const STEP = 1/60;                       // fixed integration step
+  let x = from, v = 0, target = from, id = null, prev = 0, acc = 0;
+  function step(now){
+    id = null;
+    let elapsed = (now - prev) / 1000;
+    prev = now;
+    if(!(elapsed > 0)) elapsed = STEP;
+    acc += Math.min(elapsed, 0.064);       // clamp long stalls
+    while(acc >= STEP){
+      acc -= STEP;
+      const a = tension*(target - x) - friction*v;
+      v += a*STEP; x += v*STEP;
+    }
+    if(Math.abs(target - x) < 0.001 && Math.abs(v) < 0.001){
+      x = target; v = 0; acc = 0; onUpdate(x); if(onRest) onRest(x); return;
+    }
+    onUpdate(x);
+    id = requestAnimationFrame(step);
+  }
+  return {
+    to(t){
+      target = t;
+      if(id == null){ prev = performance.now(); acc = 0; id = requestAnimationFrame(step); }
+    },
+    set(t){ if(id!=null){ cancelAnimationFrame(id); id=null; } x = target = t; v = 0; acc = 0; onUpdate(x); }
+  };
+}
+const lerp = (a,b,t)=>a+(b-a)*t;
+
+/* generic hover binder: trigger drives 0→1, `render(v)` paints */
+function bindHover(trigger, cfg, render){
+  if(!canHover) return;
+  const sp = makeSpring(cfg, 0, render);
+  trigger.addEventListener('mouseenter', ()=>sp.to(1));
+  trigger.addEventListener('mouseleave', ()=>sp.to(0));
+  trigger.addEventListener('focusin', ()=>sp.to(1));
+  trigger.addEventListener('focusout', ()=>sp.to(0));
+}
+function transformHover(trigger, el, cfg, from, to){
+  bindHover(trigger, cfg, v=>{
+    const x = lerp(from.x||0, to.x||0, v);
+    const y = lerp(from.y||0, to.y||0, v);
+    const s = lerp(from.s==null?1:from.s, to.s==null?1:to.s, v);
+    const r = lerp(from.r||0, to.r||0, v);
+    el.style.transform = `translate3d(${x}px,${y}px,0) scale(${s}) rotate(${r}deg)`;
+    if(from.o != null) el.style.opacity = lerp(from.o, to.o, v);
+  });
+}
+const parseCfg = el => (el.getAttribute('data-cfg')||'320,18').split(',').map(Number);
+
+/* =========================================================
+   5 — data
+   ========================================================= */
+const PARTNERS = ['AdeptPlus','Tecreat','Majorly','90MIN GYM','SSapps','A-1 Radon'];
+
+const CARD_ITEMS = [
+  { caption:'Mobile apps',     title:'High-performance Flutter.' },
+  { caption:'Web & dashboards',title:'Secure and data-driven.' },
+  { caption:'Interactive',     title:'Built for retention.' }
+];
+
+const ASSET_V = '2';   // bump after replacing any file under assets/ in place
+const WORK_IMG = n => `assets/work/${n}-lg.webp?v=${ASSET_V}`;
+
+/* The five featured case studies from the portfolio deck. */
+const WORKS = [
+  { name:'Marketing CRM & Analytics V2', category:'CRM & Analytics', company:'Tecreat & AdeptPlus', time:'2–3 months',
+    stack:'Flutter · FlutterFlow · Airtable · Make.com',
+    desc:'A CRM with advanced analytics that tracks weekly marketer performance and turns activity data into AI-generated insights.',
+    href:'https://adeptplus.com/', img:WORK_IMG('adeptplus') },
+  { name:'Majorly', category:'Career Platform', company:'Majorly.Inc', time:'2–3 months',
+    stack:'Flutter · FlutterFlow · Azure Functions (Python)',
+    desc:'A free AI-powered career platform for students — explore career paths, build resumes and job-ready skills, with advisor tools to track progress.',
+    href:'https://www.getmajorly.com/', img:WORK_IMG('majorly') },
+  { name:'90 Min Gym', category:'Fitness Booking', company:'90MIN GYM', time:'4 months',
+    stack:'Flutter · React · Supabase · Firebase',
+    desc:'A Doha-based platform for booking private or shared gym and personal-trainer sessions in 90-minute slots, with real-time scheduling.',
+    href:'#works', img:WORK_IMG('90mingym') },
+  { name:'100+ Fast Reflex Mini Games', category:'Mobile Game', company:'Individual client project', time:'5 months',
+    stack:'Godot · Unity · Flutter',
+    desc:'A collection of reflex challenges — tap, swipe and match under pressure — with rising difficulty and leaderboard tracking.',
+    href:'#works', img:WORK_IMG('minigame') },
+  { name:'Ahai App', category:'AI Education', company:'SSapps', time:'1 month',
+    stack:'Flutter · Supabase · Firebase',
+    desc:'AI homework help for STEM: snap a photo or type a question and get step-by-step explanations that teach the why, not just the answer.',
+    href:'https://play.google.com/store/apps/details?id=com.ahaai.mathsnap', img:WORK_IMG('ahai') }
+];
+
+const SERVICES = [
+  { n:'01', title:'Mobile App Development', desc:'High-performance, scalable Flutter apps.' },
+  { n:'02', title:'Web Apps & Dashboards',  desc:'Secure, data-driven operational platforms.' },
+  { n:'03', title:'Interactive Experiences', desc:'Gamified mechanics that maximise user retention.' },
+  { n:'04', title:'AI & Automation',         desc:'AI insights, workflow automation and backend services.' }
+];
+
+const STATS = [
+  { value:80,  suffix:'+', label:'Products delivered' },
+  { value:20,  suffix:'+', label:'Countries worldwide' },
+  { value:100, suffix:'%', label:'Client satisfaction' },
+  { value:1,   suffix:'%', label:'Upwork top FlutterFlow rank' }
+];
+
+const NAV_ITEMS = [
+  { label:'Home',     id:'home' },
+  { label:'Work',     id:'works' },
+  { label:'Services', id:'services' },
+  { label:'About',    id:'about' },
+  { label:'Contact',  id:'contact', url:CALENDLY }
+];
+
+/* ---- partners ---- */
+document.getElementById('partnersGrid').innerHTML = PARTNERS.map(p=>
+  `<li><span class="partner" data-hover="partner" data-cfg="320,20">${icon('circle-dot')}${p}</span></li>`
+).join('');
+
+/* ---- portfolio (radial scroll gallery items) ---- */
+document.getElementById('rsgWheel').innerHTML = WORKS.map(w=>{
+  const ext = w.href.startsWith('http');
+  return `
+  <li>
+    <div class="rsg-anim">
+      <a class="rsg-hit" href="${w.href}"${ext ? ' target="_blank" rel="noopener noreferrer"' : ''}
+         aria-label="${w.name} — ${w.category} for ${w.company}. Open case study.">
+        <div class="rsg-card">
+          <img src="${w.img}" alt="" decoding="async" />
+          <div class="rsg-veil"></div>
+          <div class="rsg-body">
+            <div class="rsg-top">
+              <span class="rsg-cat">${w.category}</span>
+              <span class="rsg-arrow">${icon('arrow-up-right')}</span>
+            </div>
+            <div class="rsg-bottom">
+              <h3>${w.name}</h3>
+              <p class="rsg-year">${w.company} · ${w.time}</p>
+              <div class="rsg-rule"></div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </li>`;
+}).join('');
+
+/* ---- services ---- */
+document.getElementById('servicesList').innerHTML = SERVICES.map((s,i)=>`
+  <li class="svc-li rv" data-delay="${i*80}" style="--ry:24px">
+    <a href="${UPWORK_URL}" target="_blank" rel="noopener noreferrer" class="svc-row" data-svc
+       aria-label="${s.title} — view on Upwork">
+      <span class="svc-idx">${s.n}</span>
+      <h3>${s.title}</h3>
+      <p class="svc-desc">${s.desc}</p>
+      <span class="svc-badge"><span>${icon('arrow-up-right')}</span></span>
+    </a>
+  </li>`).join('');
+
+/* ---- stats ---- */
+document.getElementById('statsGrid').innerHTML = STATS.map((s,i)=>`
+  <li class="rv" data-delay="${i*90}" style="--ry:20px">
+    <p class="stat-num">${s.value}${s.suffix}</p>
+    <p class="stat-label">${s.label}</p>
+  </li>`).join('');
+
+hydrateIcons();
+
+/* =========================================================
+   6 — hover wiring
+   ========================================================= */
+document.querySelectorAll('[data-hover]').forEach(el=>{
+  const kind = el.getAttribute('data-hover');
+  const cfg = parseCfg(el);
+  if(kind === 'scale'){
+    transformHover(el, el, cfg, {s:1}, {s:parseFloat(el.getAttribute('data-to')||'1.04')});
+  } else if(kind === 'lift'){
+    transformHover(el, el, cfg, {y:0,o:.8}, {y:-2,o:1});
+  } else if(kind === 'partner'){
+    transformHover(el, el, cfg, {y:0,o:.7}, {y:-2,o:1});
+  } else if(kind === 'pill'){
+    const inner = el.querySelector('.pill-in');
+    const arrow = el.querySelector('.pill-badge .ic');
+    const up = arrow && arrow.getAttribute('data-icon') === 'arrow-up-right';
+    bindHover(el, cfg, v=>{
+      inner.style.transform = `scale(${lerp(1,1.04,v)})`;
+      if(arrow) arrow.style.transform = up
+        ? `translate3d(${lerp(0,2,v)}px,${lerp(0,-2,v)}px,0)`
+        : `translate3d(${lerp(0,3,v)}px,0,0)`;
+    });
+  }
+});
+
+/* animated links */
+document.querySelectorAll('.alink').forEach(a=>{
+  const span = a.querySelector('span');
+  const legal = a.classList.contains('legal');
+  transformHover(a, span, [320,22], {x:0,o:legal?.7:.65}, {x:legal?3:4,o:1});
+});
+
+/* service rows */
+document.querySelectorAll('[data-svc]').forEach(row=>{
+  const badge = row.querySelector('.svc-badge > span');
+  bindHover(row, [240,26], v=>{
+    row.style.backgroundColor = `rgba(241,240,238,${v})`;
+    row.style.paddingLeft  = lerp(1.5, 2,    v) + 'rem';
+    row.style.paddingRight = lerp(1.5, 1.25, v) + 'rem';
+  });
+  transformHover(row, badge, [300,18], {x:0}, {x:5});
+});
+
+/* =========================================================
+   7 — reveal engine
+   ========================================================= */
+function splitWords(el, stagger){
+  let i = 0;
+  (function walk(node){
+    [...node.childNodes].forEach(n=>{
+      if(n.nodeType === 3){
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(p=>{
+          if(!p) return;
+          if(/^\s+$/.test(p)) frag.appendChild(document.createTextNode(p));
+          else {
+            const s = document.createElement('span');
+            s.className = 'wd';
+            s.style.setProperty('--d', (i++ * stagger) + 'ms');
+            s.textContent = p;
+            frag.appendChild(s);
+          }
+        });
+        node.replaceChild(frag, n);
+      } else if(n.nodeType === 1) walk(n);
+    });
+  })(el);
+}
+
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+}, { threshold:0.15, rootMargin:'0px 0px -4% 0px' });
+
+const gated = [];
+document.querySelectorAll('.rv, .lines, .words').forEach(el=>{
+  const delay = parseFloat(el.getAttribute('data-delay') || '0');
+  const stagger = parseFloat(el.getAttribute('data-stagger') || '0');
+  if(el.classList.contains('words')) splitWords(el, stagger);
+  if(el.classList.contains('lines')){
+    el.querySelectorAll('.ln > span').forEach((s,i)=> s.style.setProperty('--d', (delay + i*stagger) + 'ms'));
+  } else if(el.classList.contains('words')){
+    el.querySelectorAll('.wd').forEach(s=>{
+      const cur = parseFloat(s.style.getPropertyValue('--d')) || 0;
+      s.style.setProperty('--d', (cur + delay) + 'ms');
+    });
+  } else {
+    el.style.setProperty('--rdl', delay + 'ms');
+  }
+  if(el.getAttribute('data-gate') === 'ready') gated.push(el);
+  else io.observe(el);
+});
+
+/* =========================================================
+   8 — page loader
+   ========================================================= */
+let ready = false;
+function markReady(){
+  ready = true;
+  gated.forEach(el=>io.observe(el));
+}
+(function initLoader(){
+  const loader = document.getElementById('loader');
+  const fill = document.getElementById('loaderFill');
+  const count = document.getElementById('loaderCount');
+  const center = document.getElementById('loaderCenter');
+  stopScroll();
+
+  const easeInOutCubic = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2;
+  let start = null;
+
+  function frame(t){
+    if(start == null) start = t;
+    const p = Math.min((t - start) / FILL_MS, 1);
+    const val = Math.round(easeInOutCubic(p) * 100);
+    fill.style.width = val + '%';
+    count.textContent = String(val).padStart(3, '0');
+    if(p < 1) requestAnimationFrame(frame);
+    else exit();
+  }
+
+  function exit(){
+    const fade = makeSpring([260,26], 0, v=>{
+      center.style.opacity = 1 - v;
+      center.style.transform = `translate3d(0,${-12*v}px,0)`;
+    });
+    const slide = makeSpring([220,30], 0, v=>{
+      loader.style.transform = `translate3d(0,${-100*v}%,0)`;
+    }, ()=>{
+      markReady();
+      startScroll();
+      loader.remove();
+    });
+    fade.to(1);
+    slide.to(1);
+  }
+  requestAnimationFrame(frame);
+})();
+
+/* =========================================================
+   9 — live clock
+   ========================================================= */
+const clockTime = document.getElementById('clockTime');
+const clockDate = document.getElementById('clockDate');
+let currentTime = '9:41am';
+const clockListeners = new Set();
+function tickClock(){
+  const d = new Date();
+  let h = d.getHours();
+  const m = String(d.getMinutes()).padStart(2, '0');
+  const mer = h >= 12 ? 'pm' : 'am';
+  h = h % 12 || 12;
+  currentTime = `${h}:${m}${mer}`;
+  clockTime.textContent = currentTime;
+  clockDate.textContent = `${d.getDate()} ${MONTHS[d.getMonth()]}, ${d.getFullYear()}`;
+  clockListeners.forEach(fn=>fn(currentTime));
+}
+tickClock();
+setInterval(tickClock, 1000);
+
+/* =========================================================
+   10 — hero card carousel
+   ========================================================= */
+(function initCarousel(){
+  const slot = document.getElementById('heroSlot');
+  const dots = document.getElementById('heroDots');
+  const row = document.getElementById('heroCardRow');
+  const prev = document.getElementById('heroPrev');
+  const next = document.getElementById('heroNext');
+  let index = 0, current = null, busy = null;
+
+  dots.innerHTML = CARD_ITEMS.map((_,i)=>`<span class="hero-dot${i===0?' on':''}"></span>`).join('');
+
+  function make(item){
+    const el = document.createElement('span');
+    el.className = 'hero-card-item';
+    el.innerHTML = `<span class="hero-card-cap">${item.caption}</span><span class="hero-card-title">${item.title}</span>`;
+    el.style.display = 'flex';
+    el.style.flexDirection = 'column';
+    el.style.gap = '.25rem';
+    return el;
+  }
+  current = make(CARD_ITEMS[0]);
+  slot.appendChild(current);
+
+  function go(step){
+    const n = CARD_ITEMS.length;
+    const nextIndex = (index + step + n) % n;
+    if(nextIndex === index) return;
+    index = nextIndex;
+    dots.querySelectorAll('.hero-dot').forEach((d,i)=> d.classList.toggle('on', i === index));
+
+    const out = current;
+    const inc = make(CARD_ITEMS[index]);
+    slot.appendChild(inc);
+    current = inc;
+
+    const dir = step > 0 ? 1 : -1;
+    if(busy) busy();
+    const sp = makeSpring([300,28], 0, v=>{
+      out.style.opacity = 1 - v;
+      out.style.transform = `translate3d(0,${-14*dir*v}px,0)`;
+      inc.style.opacity = v;
+      inc.style.transform = `translate3d(0,${14*dir*(1-v)}px,0)`;
+    }, ()=>{ out.remove(); busy = null; });
+    inc.style.opacity = '0';
+    inc.style.transform = `translate3d(0,${14*dir}px,0)`;
+    busy = ()=>{ out.remove(); };
+    sp.to(1);
+  }
+
+  row.addEventListener('click', ()=>go(1));
+  next.addEventListener('click', e=>{ e.stopPropagation(); go(1); });
+  prev.addEventListener('click', e=>{ e.stopPropagation(); go(-1); });
+  [prev,next].forEach(el=> el.addEventListener('keydown', e=>{
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); e.stopPropagation(); go(el === next ? 1 : -1); }
+  }));
+})();
+
+/* =========================================================
+   11 — LiquidReveal
+   ========================================================= */
+(function initLiquid(){
+  const container = document.getElementById('liquid');
+  const canvas = container.querySelector('canvas');
+  if(reduced){ canvas.remove(); return; }
+
+  const ctx = canvas.getContext('2d');
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const brushRadius = 143;
+  const decay = 0.016;
+  const radius = brushRadius * dpr;
+  const diam = Math.ceil(radius * 2);
+  const c = diam / 2;
+
+  const cover = document.createElement('canvas');
+  const cctx = cover.getContext('2d');
+  const brush = document.createElement('canvas');
+  brush.width = diam; brush.height = diam;
+  const bctx = brush.getContext('2d');
+
+  let W = 0, H = 0, loaded = false;
+  const img = new Image();
+  if (/^https?:\/\//i.test(AFTER_SRC)) img.crossOrigin = 'anonymous';
+  img.onload = ()=>{ loaded = true; buildCover(); };
+  img.onerror = ()=> console.error('LiquidReveal: failed to load', AFTER_SRC);
+  img.src = new URL(AFTER_SRC, location.href).href;
+
+  function buildCover(){
+    if(!loaded || !W || !H) return;
+    cover.width = W; cover.height = H;
+    const s = Math.max(W / img.width, H / img.height);
+    const w = img.width * s, h = img.height * s;
+    cctx.clearRect(0, 0, W, H);
+    cctx.drawImage(img, (W - w) / 2, (H - h) / 2, w, h);
+  }
+  function resize(){
+    const r = container.getBoundingClientRect();
+    if(!r.width || !r.height) return;
+    W = Math.max(1, Math.round(r.width * dpr));
+    H = Math.max(1, Math.round(r.height * dpr));
+    canvas.width = W; canvas.height = H;
+    canvas.style.width = r.width + 'px';
+    canvas.style.height = r.height + 'px';
+    buildCover();
+  }
+  resize();
+  new ResizeObserver(resize).observe(container);
+
+  const points = [];
+  let last = null, idle = 0;
+
+  function stamp(x, y){
+    bctx.clearRect(0, 0, diam, diam);
+    bctx.globalCompositeOperation = 'source-over';
+    const g = bctx.createRadialGradient(c, c, 0, c, c, c);
+    g.addColorStop(0, 'rgba(255,255,255,1)');
+    g.addColorStop(0.55, 'rgba(255,255,255,0.82)');
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+    bctx.fillStyle = g;
+    bctx.fillRect(0, 0, diam, diam);
+    bctx.globalCompositeOperation = 'source-in';
+    bctx.drawImage(cover, x - c, y - c, diam, diam, 0, 0, diam, diam);
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.drawImage(brush, x - c, y - c);
+  }
+
+  window.addEventListener('pointermove', e=>{
+    if(!W || !H) return;
+    const r = container.getBoundingClientRect();
+    const x = (e.clientX - r.left) * dpr;
+    const y = (e.clientY - r.top) * dpr;
+    if(x < -radius || x > W + radius || y < -radius || y > H + radius){ last = null; return; }
+    if(last){
+      const dx = x - last.x, dy = y - last.y;
+      const dist = Math.hypot(dx, dy);
+      const step = Math.max(radius * 0.3, 1);
+      const n = Math.min(Math.ceil(dist / step), 60);
+      for(let i = 1; i <= n; i++) points.push({ x: last.x + dx * (i / n), y: last.y + dy * (i / n) });
+    } else {
+      points.push({ x, y });
+    }
+    last = { x, y };
+  }, { passive:true });
+
+  function tick(){
+    requestAnimationFrame(tick);
+    if(!W || !H || !loaded) return;
+    const drawing = points.length > 0;
+    if(drawing) idle = 0;
+    else { idle++; if(idle > 120) return; }
+
+    const fade = drawing ? decay : Math.min(decay + idle * 0.004, 0.5);
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.fillStyle = `rgba(0,0,0,${fade})`;
+    ctx.fillRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'source-over';
+
+    if(drawing){
+      for(const p of points) stamp(p.x, p.y);
+      points.length = 0;
+    } else if(idle === 120){
+      ctx.clearRect(0, 0, W, H);
+    }
+  }
+  requestAnimationFrame(tick);
+})();
+
+/* =========================================================
+   12 — nav menu overlay
+   ========================================================= */
+const overlays = document.getElementById('overlays');
+let navEl = null, navSpring = null;
+
+function openNav(){
+  if(navEl) return;
+  navEl = document.createElement('div');
+  navEl.className = 'navmenu';
+  navEl.setAttribute('role', 'dialog');
+  navEl.setAttribute('aria-modal', 'true');
+  navEl.setAttribute('aria-label', 'Menu');
+  navEl.innerHTML = `
+    <div class="shell navmenu-top">
+      <div class="navmenu-brand">${icon('logo')}Aksa Nur Irwan</div>
+      <button class="navmenu-close" data-nav-close>${icon('x')}Close</button>
+    </div>
+    <nav class="shell navmenu-nav" aria-label="Overlay">
+      <ul>
+        ${NAV_ITEMS.map((it,i)=>`
+          <li><button class="navmenu-item" data-nav="${it.id}" style="transition-delay:${i*45 + 80}ms">
+            <span class="navmenu-num">0${i+1}</span><span class="navmenu-label">${it.label}</span>
+          </button></li>`).join('')}
+      </ul>
+    </nav>
+    <div class="shell navmenu-bottom">
+      <span data-nav-clock>Local time — ${currentTime}</span>
+      <a href="https://calendly.com/andiaksanurirwan/30min" target="_blank" rel="noopener noreferrer" data-nav-start>Start a project →</a>
+    </div>`;
+  overlays.appendChild(navEl);
+  hydrateIcons(navEl);
+  stopScroll();
+
+  const el = navEl;
+  navSpring = makeSpring([280,32], 0, v=>{ el.style.opacity = v; });
+  navSpring.to(1);
+  requestAnimationFrame(()=> requestAnimationFrame(()=> navEl && navEl.classList.add('entered')));
+
+  const clockNode = navEl.querySelector('[data-nav-clock]');
+  const listener = t => { if(clockNode) clockNode.textContent = `Local time — ${t}`; };
+  clockListeners.add(listener);
+  navEl._listener = listener;
+
+  navEl.querySelector('[data-nav-close]').addEventListener('click', closeNav);
+  navEl.querySelector('[data-nav-start]').addEventListener('click', closeNav);
+  navEl.querySelectorAll('[data-nav]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const id = btn.getAttribute('data-nav');
+      const item = NAV_ITEMS.find(n=>n.id === id);
+      closeNav();
+      if(item && item.url) window.open(item.url, '_blank', 'noopener');
+      else scrollToId(id);
+    });
+  });
+  document.addEventListener('keydown', onNavKey);
+}
+function onNavKey(e){ if(e.key === 'Escape') closeNav(); }
+function closeNav(){
+  if(!navEl) return;
+  const el = navEl;
+  navEl = null;
+  document.removeEventListener('keydown', onNavKey);
+  clockListeners.delete(el._listener);
+  el.classList.remove('entered');
+  if(navSpring) navSpring.set(parseFloat(el.style.opacity) || 0);
+  navSpring = null;
+  const sp = makeSpring([280,32], parseFloat(el.style.opacity) || 1, v=>{ el.style.opacity = v; }, ()=>{ el.remove(); });
+  sp.to(0);
+  startScroll();
+}
+document.getElementById('menuBtn').addEventListener('click', openNav);
+
+/* =========================================================
+   14 — radial scroll gallery (portfolio)
+   ========================================================= */
+const RSG = {
+  scrollDuration: 2500,   // px of scroll for one full 360° turn
+  visiblePercentage: 55,  // how much of the circle sits above the fold
+  baseRadius: 320,        // tuned for 5 cards — a wider circle leaves big gaps
+  mobileRadius: 240,      // radius under 768px
+  startTrigger: 'center center',
+  direction: 'ltr'
+};
+
+(function initRadialGallery(){
+  const stage = document.getElementById('rsg');
+  const mask  = stage && stage.querySelector('.rsg-mask');
+  const wheel = document.getElementById('rsgWheel');
+  if(!stage || !wheel) return;
+  const items = [...wheel.children];
+  const count = items.length;
+  if(!count) return;
+
+  const clampedVisible = Math.max(10, Math.min(100, RSG.visiblePercentage)) / 100;
+  const hiddenDecimal  = 1 - clampedVisible;
+
+  // The whole page is sized on a rem grid whose root scales with the viewport,
+  // so scale the circle by the same factor to keep it in proportion.
+  const gridScale = () => (parseFloat(getComputedStyle(docEl).fontSize) || 16) / 16;
+
+  function layout(){
+    const scale = gridScale();
+    const radius = (window.innerWidth < 768 ? RSG.mobileRadius : RSG.baseRadius) * scale;
+    const diameter = radius * 2;
+
+    wheel.style.width  = diameter + 'px';
+    wheel.style.height = diameter + 'px';
+    wheel.style.bottom = -(diameter * hiddenDecimal) + 'px';
+
+    // Height the mask window so rotating cards are never clipped:
+    // visible arc + half a card + room for the 1.25x hover scale.
+    const card = items[0].querySelector('.rsg-card');
+    const ch = card ? card.offsetHeight : 280 * scale;
+    const buffer = ch * 1.25 - ch + 60 * scale;
+    mask.style.height = (diameter * clampedVisible + ch / 2 + buffer) + 'px';
+
+    items.forEach((li, i)=>{
+      const angle = (i / count) * 2 * Math.PI;
+      let x = radius * Math.cos(angle);
+      const y = radius * Math.sin(angle);
+      if(RSG.direction === 'rtl') x = -x;
+      li.style.transform =
+        `translate(-50%,-50%) translate3d(${x}px,${y}px,0) rotate(${angle * 180 / Math.PI + 90}deg)`;
+    });
+  }
+  layout();
+
+  /* hover / focus — one item lifts, the rest recede */
+  items.forEach(li=>{
+    const hit = li.querySelector('.rsg-hit');
+    const on  = ()=>{ wheel.classList.add('is-hovering'); li.classList.add('is-hovered'); };
+    const off = ()=>{ wheel.classList.remove('is-hovering'); li.classList.remove('is-hovered'); };
+    if(canHover){
+      hit.addEventListener('mouseenter', on);
+      hit.addEventListener('mouseleave', off);
+    }
+    hit.addEventListener('focus', on);   // keyboard users get it either way
+    hit.addEventListener('blur', off);
+  });
+
+  if(reduced) return;   // static wheel, no pin and no scrub
+
+  // GSAP owns the wheel's transform from here on, so restate the CSS centering
+  // as xPercent rather than letting the two fight over `transform`.
+  gsap.set(wheel, { xPercent: -50, x: 0, rotation: 0 });
+
+  gsap.fromTo(items.map(li=>li.querySelector('.rsg-anim')),
+    { scale: 0, autoAlpha: 0 },
+    {
+      scale: 1, autoAlpha: 1, duration: 1.2, ease: 'back.out(1.2)', stagger: 0.05,
+      scrollTrigger: { trigger: stage, start: 'top 80%', toggleActions: 'play none none reverse' }
+    }
+  );
+
+  gsap.to(wheel, {
+    rotation: 360, ease: 'none',
+    scrollTrigger: {
+      trigger: stage, pin: true, start: RSG.startTrigger,
+      end: `+=${RSG.scrollDuration}`, scrub: 1, invalidateOnRefresh: true
+    }
+  });
+
+  let resizeId;
+  addEventListener('resize', ()=>{
+    clearTimeout(resizeId);
+    resizeId = setTimeout(()=>{ layout(); ScrollTrigger.refresh(); }, 100);
+  });
+  addEventListener('load', ()=>{ layout(); ScrollTrigger.refresh(); });
+})();
+
+/* =========================================================
+   15 — case-study showcase
+   ========================================================= */
+let caseEl = null, caseSpring = null;
+
+function openCase(w){
+  if(caseEl) return;
+  const live = w.href.startsWith('http');
+  caseEl = document.createElement('div');
+  caseEl.className = 'case';
+  caseEl.setAttribute('role', 'dialog');
+  caseEl.setAttribute('aria-modal', 'true');
+  caseEl.setAttribute('aria-label', w.name);
+  caseEl.innerHTML = `
+    <div class="case-panel">
+      <button class="case-close" aria-label="Close" data-case-x>${icon('x')}</button>
+      <div class="case-scroll">
+        <div class="case-media"><img src="${w.img}" alt="${w.name} — ${w.category}" /></div>
+        <div class="case-body">
+          <span class="case-cat">${w.category}</span>
+          <h2>${w.name}</h2>
+          <p class="case-desc">${w.desc}</p>
+          <dl class="case-meta">
+            <div><dt>Company</dt><dd>${w.company}</dd></div>
+            <div><dt>Timeline</dt><dd>${w.time}</dd></div>
+            <div style="grid-column:1/-1"><dt>Stack</dt><dd>${w.stack}</dd></div>
+          </dl>
+          <div class="case-actions">
+            ${live ? `<a class="pill v-dark has-arrow" href="${w.href}" target="_blank" rel="noopener noreferrer" data-case-pill>
+                 <span class="pill-in">Visit live site<span class="pill-badge">${icon('arrow-up-right')}</span></span>
+               </a>` : `<span class="case-note">Private client project — no public link.</span>`}
+            <button class="pill v-outline" data-case-close-btn data-case-pill><span class="pill-in">Close</span></button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  overlays.appendChild(caseEl);
+  hydrateIcons(caseEl);
+  stopScroll();
+
+  const panel = caseEl.querySelector('.case-panel');
+  caseSpring = makeSpring([260,30], 0, v=>{
+    panel.style.opacity = v;
+    panel.style.transform = `translate3d(0,${lerp(28,0,v)}px,0)`;
+  });
+  caseSpring.to(1);
+
+  caseEl.querySelectorAll('[data-case-pill]').forEach(el=>{
+    const inner = el.querySelector('.pill-in');
+    const arrow = el.querySelector('.pill-badge .ic');
+    bindHover(el, [320,18], v=>{
+      inner.style.transform = `scale(${lerp(1,1.04,v)})`;
+      if(arrow) arrow.style.transform = `translate3d(${lerp(0,2,v)}px,${lerp(0,-2,v)}px,0)`;
+    });
+  });
+
+  caseEl.addEventListener('click', closeCase);
+  panel.addEventListener('click', e=> e.stopPropagation());
+  caseEl.querySelector('[data-case-x]').addEventListener('click', closeCase);
+  const cb = caseEl.querySelector('[data-case-close-btn]');
+  if(cb) cb.addEventListener('click', closeCase);
+  document.addEventListener('keydown', onCaseKey);
+  setTimeout(()=>{ const b = caseEl && caseEl.querySelector('[data-case-x]'); if(b) b.focus(); }, 120);
+}
+function onCaseKey(e){ if(e.key === 'Escape') closeCase(); }
+function closeCase(){
+  if(!caseEl) return;
+  const el = caseEl, panel = el.querySelector('.case-panel');
+  caseEl = null;
+  document.removeEventListener('keydown', onCaseKey);
+  if(caseSpring) caseSpring.set(parseFloat(panel.style.opacity) || 0);
+  caseSpring = null;
+  const sp = makeSpring([260,30], parseFloat(panel.style.opacity) || 1, v=>{
+    panel.style.opacity = v;
+    panel.style.transform = `translate3d(0,${lerp(18,0,v)}px,0)`;
+  }, ()=>{ el.remove(); });
+  sp.to(0);
+  startScroll();
+}
+
+/* a plain click expands the card; modified clicks still follow the href */
+document.querySelectorAll('#rsgWheel .rsg-hit').forEach((a, i)=>{
+  a.addEventListener('click', e=>{
+    if(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    openCase(WORKS[i]);
+  });
+});
+
+/* =========================================================
+   16 — archive sphere
+   ========================================================= */
+const SPHERE = {
+  containerSize: 600,     // design px; scaled by the rem grid and clamped to the column
+  sphereRadius: 235,     // wider than the reference 200 so the cloud fills the stage
+  dragSensitivity: 0.8,
+  momentumDecay: 0.96,
+  maxRotationSpeed: 6,
+  baseImageScale: 0.21,
+  hoverScale: 1.2,
+  autoRotate: true,
+  autoRotateSpeed: 0.2
+};
+
+/* Verbatim Upwork client reviews. Portraits are stock and stand in for the
+   reviewers — no reviewer is named, and every quote links back to Upwork. */
+const REVIEWS = [
+  ['FlutterFlow Developer for Motive EV Mobile App',
+   'Aksa did a great job building the app and completed the job successfully. Would hire again!'],
+  ['Build Phase 1 MVP for Anime-Inspired Training App (Fixed Scope, Milestone-Based)',
+   'Aksa is a solution oriented problem solver. Will work with again in the future.'],
+  ['Full Stack — FlutterFlow + Supabase/Firebase + OpenAI API developer wanted for long-term',
+   'Great work and collaboration!'],
+  ['Basic help with FlutterFlow',
+   'Did a fantastic job! Would hire again.'],
+  ['Figma to FlutterFlow SaaS web site project',
+   'A. Aksa is a professional who communicates clearly and delivers quality work on time. He makes insightful suggestions and is a pleasure to work with. Highly recommended.'],
+  ['FlutterFlow Deployment iOS',
+   'Very professional and knowledgeable dev. Helped us immensely with our project.'],
+  ['30 minute consultation',
+   'Very helpful in understanding our project and recommending what needs to be done.'],
+  ['Bubble.io & FlutterFlow Development',
+   'Aksa was incredibly reliable and responsive, always open to my feedback and suggestions throughout the development process. I highly recommend Aksa for anyone looking for a skilled and dependable Bubble.io developer. He\'ll definitely be my go-to for future projects!'],
+  ['Proof of Concept for Educational Web App',
+   'Absolutely fantastic experience working with Aksa! Extremely high skill level. A true Flutter and FlutterFlow expert. It would be difficult to overstate what a pleasure it was to work with him — flexible, dedicated, and resourceful. Always found a solution when a problem presented itself. Rapid communication at all times, including nights and weekends. He also constructively pushed the project forward with occasional suggestions (gently offered) of his own.'],
+  ['Develop 1 (Magic Picture) android app on Libgdx / Godot / Android Native / Flutter',
+   'Excellent developer who delivered quality work and in a quick time frame. I have been working with him for a long time and every project is outstanding!']
+].map(([job, quote], i)=>({
+  id:'rev-'+i, job, quote,
+  src:  `assets/reviews/client-${i+1}-sq.webp?v=${ASSET_V}`,
+  full: `assets/reviews/client-${i+1}-lg.webp?v=${ASSET_V}`
+}));
+
+/* ---- spotlight ---- */
+let spotEl = null, spotSpring = null;
+function openSpotlight(item){
+  if(spotEl) return;
+  spotEl = document.createElement('div');
+  spotEl.className = 'spot';
+  spotEl.setAttribute('role', 'dialog');
+  spotEl.setAttribute('aria-modal', 'true');
+  spotEl.setAttribute('aria-label', `Client review — ${item.job}`);
+  spotEl.innerHTML = `
+    <div class="spot-panel">
+      <button class="spot-close" aria-label="Close" data-spot-x>${icon('x')}</button>
+      <div class="spot-body">
+        <span class="spot-kicker">Upwork client review</span>
+        <blockquote class="spot-quote">${item.quote}</blockquote>
+        <div class="spot-by">
+          <img class="spot-avatar" src="${item.full}" alt="" decoding="async" />
+          <span class="spot-job">${item.job}</span>
+        </div>
+        <a class="pill v-dark has-arrow spot-cta" href="${UPWORK_URL}" target="_blank"
+           rel="noopener noreferrer" data-spot-pill>
+          <span class="pill-in">View on Upwork<span class="pill-badge">${icon('arrow-up-right')}</span></span>
+        </a>
+      </div>
+    </div>`;
+  overlays.appendChild(spotEl);
+  hydrateIcons(spotEl);
+  stopScroll();
+
+  const panel = spotEl.querySelector('.spot-panel');
+  spotSpring = makeSpring([260,30], 0, v=>{
+    panel.style.opacity = v;
+    panel.style.transform = `translate3d(0,${lerp(28,0,v)}px,0)`;
+  });
+  spotSpring.to(1);
+
+  const pill = spotEl.querySelector('[data-spot-pill]');
+  if(pill){
+    const inner = pill.querySelector('.pill-in');
+    const arrow = pill.querySelector('.pill-badge .ic');
+    bindHover(pill, [320,18], v=>{
+      inner.style.transform = `scale(${lerp(1,1.04,v)})`;
+      if(arrow) arrow.style.transform = `translate3d(${lerp(0,2,v)}px,${lerp(0,-2,v)}px,0)`;
+    });
+  }
+
+  spotEl.addEventListener('click', closeSpotlight);
+  panel.addEventListener('click', e=> e.stopPropagation());
+  spotEl.querySelector('[data-spot-x]').addEventListener('click', closeSpotlight);
+  document.addEventListener('keydown', onSpotKey);
+  setTimeout(()=>{ const b = spotEl && spotEl.querySelector('[data-spot-x]'); if(b) b.focus(); }, 120);
+}
+function onSpotKey(e){ if(e.key === 'Escape') closeSpotlight(); }
+function closeSpotlight(){
+  if(!spotEl) return;
+  const el = spotEl, panel = el.querySelector('.spot-panel');
+  spotEl = null;
+  document.removeEventListener('keydown', onSpotKey);
+  if(spotSpring) spotSpring.set(parseFloat(panel.style.opacity) || 0);
+  spotSpring = null;
+  const sp = makeSpring([260,30], parseFloat(panel.style.opacity) || 1, v=>{
+    panel.style.opacity = v;
+    panel.style.transform = `translate3d(0,${lerp(18,0,v)}px,0)`;
+  }, ()=>{ el.remove(); });
+  sp.to(0);
+  startScroll();
+}
+
+(function initArchiveSphere(){
+  const stage = document.getElementById('orbitStage');
+  if(!stage || !REVIEWS.length) return;
+
+  const DEG = Math.PI / 180;
+  const norm = a => { while(a > 180) a -= 360; while(a < -180) a += 360; return a; };
+  const clamp = v => Math.max(-SPHERE.maxRotationSpeed, Math.min(SPHERE.maxRotationSpeed, v));
+  const gridScale = () => (parseFloat(getComputedStyle(docEl).fontSize) || 16) / 16;
+
+  // Fibonacci distribution — theta/phi are computed ONCE (radius is applied per frame)
+  // so the sphere never reshuffles when the container resizes.
+  const spherical = (()=>{
+    const out = [];
+    const golden = (1 + Math.sqrt(5)) / 2;
+    const inc = 2 * Math.PI / golden;
+    const n = REVIEWS.length;
+    for(let i = 0; i < n; i++){
+      let phi = Math.acos(1 - 2 * (i / n)) * (180 / Math.PI);
+      let theta = ((inc * i) * (180 / Math.PI)) % 360;
+      const poleBonus = Math.pow(Math.abs(phi - 90) / 90, 0.6) * 35;
+      phi = phi < 90 ? Math.max(5, phi - poleBonus) : Math.min(175, phi + poleBonus);
+      phi = 15 + (phi / 180) * 150;
+      theta = (theta + (Math.random() - 0.5) * 20) % 360;
+      phi = Math.max(0, Math.min(180, phi + (Math.random() - 0.5) * 10));
+      out.push({ theta, phi });
+    }
+    return out;
+  })();
+
+  let hovered = null, focusHeld = false, dragging = false, moved = false, dirty = true;
+  let pressed = null;   // node the pointer went down on, for click-vs-drag
+  let size = 0, radius = 0, imgSize = 0;
+  const rot = { x: 15, y: 15 };
+  const vel = { x: 0, y: 0 };
+  const last = { x: 0, y: 0 };
+
+  const nodes = REVIEWS.map((item, i)=>{
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'orbit-node';
+    b.setAttribute('aria-label', `Client review — ${item.job}`);
+    b.innerHTML = `<img data-src="${item.src}" alt="" draggable="false" decoding="async" />`;
+    // Enter/Space on the button synthesises a click with detail === 0. Real pointer
+    // clicks never reach here: pointer capture on the stage retargets them, so they
+    // are resolved in the pointerup handler below instead.
+    b.addEventListener('click', e=>{ if(e.detail === 0) openSpotlight(item); });
+    b.addEventListener('mouseenter', ()=>{ hovered = i; dirty = true; });
+    b.addEventListener('mouseleave', ()=>{ if(hovered === i) hovered = null; dirty = true; });
+    b.addEventListener('focus', ()=>{ hovered = i; focusHeld = true; dirty = true; });
+    b.addEventListener('blur',  ()=>{ if(hovered === i) hovered = null; focusHeld = false; dirty = true; });
+    stage.appendChild(b);
+    return b;
+  });
+
+  function resize(){
+    const parent = stage.parentElement;
+    const cs = getComputedStyle(parent);
+    const avail = parent.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    size = Math.max(200, Math.min(SPHERE.containerSize * gridScale(), avail));
+    radius = size * (SPHERE.sphereRadius / SPHERE.containerSize);
+    imgSize = size * SPHERE.baseImageScale;
+    stage.style.width = size + 'px';
+    stage.style.height = size + 'px';
+    nodes.forEach(n=>{
+      n.style.width = imgSize + 'px';
+      n.style.height = imgSize + 'px';
+      n.style.marginLeft = (-imgSize / 2) + 'px';
+      n.style.marginTop  = (-imgSize / 2) + 'px';
+    });
+    dirty = true;
+  }
+
+  function render(){
+    const rx = rot.x * DEG, ry = rot.y * DEG;
+    const cosY = Math.cos(ry), sinY = Math.sin(ry), cosX = Math.cos(rx), sinX = Math.sin(rx);
+    // The reference culls almost the whole back hemisphere (-10 / -30 at r=200). That
+    // suits 40+ nodes; with 10 client avatars it leaves the sphere looking empty, so
+    // the band is widened and depth scaling keeps the far ones reading as far.
+    const fadeStart = -0.30 * radius, fadeEnd = -0.72 * radius;
+    const pad = 25 * (radius / 200);
+    const out = [];
+
+    for(let i = 0; i < spherical.length; i++){
+      const p = spherical[i];
+      const sp = Math.sin(p.phi * DEG), cp = Math.cos(p.phi * DEG);
+      let x = radius * sp * Math.cos(p.theta * DEG);
+      let y = radius * cp;
+      let z = radius * sp * Math.sin(p.theta * DEG);
+      const x1 =  x * cosY + z * sinY, z1 = -x * sinY + z * cosY;  x = x1; z = z1;
+      const y2 =  y * cosX - z * sinX, z2 =  y * sinX + z * cosX;  y = y2; z = z2;
+
+      const visible = z > fadeEnd;
+      let fade = 1;
+      if(z <= fadeStart) fade = Math.max(0, (z - fadeEnd) / (fadeStart - fadeEnd));
+
+      const isPole = p.phi < 30 || p.phi > 150;
+      const ratio = Math.min(Math.sqrt(x * x + y * y) / radius, 1);
+      const centerScale = Math.max(0.3, 1 - ratio * (isPole ? 0.4 : 0.7));
+      const depthScale = (z + radius) / (2 * radius);
+      out.push({ x, y, z, visible, fade, scale: centerScale * Math.max(0.5, 0.8 + depthScale * 0.3) });
+    }
+
+    // collision pass — shrink whatever would overlap on screen
+    for(let i = 0; i < out.length; i++){
+      const a = out[i];
+      if(!a.visible) continue;
+      let sc = a.scale;
+      const sizeA = imgSize * sc;
+      for(let j = 0; j < out.length; j++){
+        if(i === j) continue;
+        const b = out[j];
+        if(!b.visible) continue;
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        const min = (sizeA + imgSize * b.scale) / 2 + pad;
+        if(d < min && d > 0){
+          sc = Math.min(sc, sc * Math.max(0.4, 1 - ((min - d) / min) * 0.6));
+        }
+      }
+      a.scale = Math.max(0.25, sc);
+    }
+
+    for(let i = 0; i < nodes.length; i++){
+      const n = nodes[i], o = out[i];
+      if(!o.visible){ if(n.style.display !== 'none') n.style.display = 'none'; continue; }
+      if(n.style.display === 'none') n.style.display = '';
+      const sc = hovered === i ? Math.min(SPHERE.hoverScale, o.scale * SPHERE.hoverScale) : o.scale;
+      n.style.transform = `translate3d(${o.x}px, ${o.y}px, 0) scale(${sc})`;
+      n.style.opacity = o.fade;
+      n.style.zIndex = Math.round(1000 + o.z);
+    }
+  }
+
+  /* pointer events cover mouse, touch and pen in one path */
+  stage.addEventListener('pointerdown', e=>{
+    dragging = true; moved = false;
+    pressed = e.target.closest ? e.target.closest('.orbit-node') : null;
+    vel.x = 0; vel.y = 0;
+    last.x = e.clientX; last.y = e.clientY;
+    stage.classList.add('is-dragging');
+    try{ stage.setPointerCapture(e.pointerId); }catch(_){}
+  });
+  stage.addEventListener('pointermove', e=>{
+    if(!dragging) return;
+    const dx = e.clientX - last.x, dy = e.clientY - last.y;
+    if(Math.abs(dx) > 2 || Math.abs(dy) > 2) moved = true;
+    const rdx = -dy * SPHERE.dragSensitivity, rdy = dx * SPHERE.dragSensitivity;
+    rot.x = norm(rot.x + clamp(rdx));
+    rot.y = norm(rot.y + clamp(rdy));
+    vel.x = clamp(rdx); vel.y = clamp(rdy);
+    last.x = e.clientX; last.y = e.clientY;
+    dirty = true;
+  });
+  const endDrag = ()=>{ dragging = false; pressed = null; stage.classList.remove('is-dragging'); };
+  stage.addEventListener('pointerup', e=>{
+    // a press that never turned into a drag counts as selecting that image
+    if(!moved && pressed){
+      const i = nodes.indexOf(pressed);
+      if(i > -1) openSpotlight(REVIEWS[i]);
+    }
+    endDrag();
+  });
+  stage.addEventListener('pointercancel', endDrag);
+
+  /* the loop only runs while the sphere is on screen */
+  let rafId = null, inView = false;
+  function tick(){
+    rafId = inView ? requestAnimationFrame(tick) : null;
+    if(!dragging){
+      vel.x *= SPHERE.momentumDecay;
+      vel.y *= SPHERE.momentumDecay;
+      if(Math.abs(vel.x) < 0.01 && Math.abs(vel.y) < 0.01){ vel.x = 0; vel.y = 0; }
+      // auto-rotation pauses while a node is hovered or focused, so it can be clicked
+      const spin = (SPHERE.autoRotate && !reduced && !focusHeld && hovered === null)
+        ? SPHERE.autoRotateSpeed : 0;
+      if(spin || vel.x || vel.y){
+        rot.x = norm(rot.x + clamp(vel.x));
+        rot.y = norm(rot.y + spin + clamp(vel.y));
+        dirty = true;
+      }
+    }
+    if(dirty){ render(); dirty = false; }
+  }
+
+  let loadedOnce = false;
+  new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      inView = e.isIntersecting;
+      if(inView){
+        if(!loadedOnce){
+          loadedOnce = true;
+          // transform-positioned nodes confuse native lazy loading, so swap src ourselves
+          nodes.forEach(n=>{ const img = n.querySelector('img'); img.src = img.dataset.src; });
+        }
+        if(rafId === null) rafId = requestAnimationFrame(tick);
+      }
+    });
+  }, { threshold: 0 }).observe(stage);
+
+  resize();
+  let resizeId;
+  addEventListener('resize', ()=>{ clearTimeout(resizeId); resizeId = setTimeout(resize, 100); });
+})();
+
+/* =========================================================
+   17 — routing
+   ========================================================= */
+document.querySelectorAll('[data-scroll]').forEach(el=>
+  el.addEventListener('click', e=>{ e.preventDefault(); scrollToId(el.getAttribute('data-scroll')); }));
+
+document.querySelectorAll('.nav-primary [data-nav]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const id = btn.getAttribute('data-nav');
+    const item = NAV_ITEMS.find(n=>n.id === id);
+    if(item && item.url) window.open(item.url, '_blank', 'noopener');
+    else scrollToId(id);
+  });
+});
+</script>
+</body>
+</html>
