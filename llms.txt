@@ -1,0 +1,30 @@
+# Aksa Nur Irwan
+
+> Senior Flutter & FlutterFlow developer from Indonesia with 5+ years of mobile app development. Builds iOS and Android MVPs for startups, and fixes, scales and migrates FlutterFlow apps already in production.
+
+Highlights:
+- Built the FlutterFlow MVP that helped a US startup raise $164,000 in seed funding.
+- Shipped Flutter apps with 10,000+ active users.
+- 80+ products delivered for clients in 20+ countries; ranked in the top 1% of FlutterFlow developers on Upwork.
+- Clients include Tecreat, 90MIN GYM (Qatar) and SSapps.
+
+## Services
+- [Mobile app development](https://aksanurirwan.com/#services): iOS and Android apps in Flutter, from MVP to production.
+- [FlutterFlow development](https://aksanurirwan.com/#services): fast MVPs with custom Dart code, plus FlutterFlow to Flutter migration.
+- [Web apps & dashboards](https://aksanurirwan.com/#services): secure, data-driven operational platforms.
+- [AI & automation](https://aksanurirwan.com/#services): OpenAI and Gemini features, workflow automation and backend services.
+
+## Stack
+Flutter, Dart, FlutterFlow, BLoC, Riverpod, Provider, Firebase, Supabase, Node.js, RevenueCat, Stripe, OpenAI / Gemini APIs.
+
+## Selected work
+- [Ahai App](https://play.google.com/store/apps/details?id=com.ahaai.mathsnap): AI homework help for STEM.
+- 90 Min Gym: booking platform for gym and personal-trainer sessions in Doha, Qatar (Flutter, React, Supabase, Firebase).
+- 100+ Fast Reflex Mini Games: reflex game collection with leaderboards (Godot, Unity, Flutter).
+
+## Contact
+- [Book a 30-minute call](https://calendly.com/andiaksanurirwan/30min)
+- [Upwork](https://www.upwork.com/freelancers/~0167dcc6b7d174e749)
+- [LinkedIn](https://www.linkedin.com/in/aksanurirwan/)
+- [GitHub](https://github.com/aaksa)
+- [FAQ](https://aksanurirwan.com/#faq)

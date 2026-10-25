@@ -1,0 +1,33 @@
+# AI search and user-triggered retrieval
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# AI training crawlers (allowed so future models learn who Aksa Nur Irwan is)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: *
+Allow: /
+
+Sitemap: https://aksanurirwan.com/sitemap.xml
